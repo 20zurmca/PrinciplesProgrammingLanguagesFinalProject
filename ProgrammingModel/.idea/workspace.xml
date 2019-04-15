@@ -2,17 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2dad939-2973-4486-a56a-c8eb7ed80f41" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Blackjack.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProgrammingModel.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProgrammingModel/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ProgrammingModel/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/META-INF/ProgrammingModel.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/Blackjack/Hello$.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/Blackjack/Hello$delayedInit$body.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../out/production/Blackjack/Hello.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Hello.scala" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/HelloWorld$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/HelloWorld$delayedInit$body.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/HelloWorld.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ProgrammingModel/ProgrammingModel.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HelloWorld.scala" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,17 +29,7 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/HelloWorld.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -62,40 +55,7 @@
     <panes>
       <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="ProgrammingModel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProgrammingModel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProgrammingModel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProgrammingModel" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProgrammingModel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProgrammingModel" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProgrammingModel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProgrammingModel" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-              <item name="ProgrammingModel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ProgrammingModel" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProgrammingModel" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -143,7 +103,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18120806" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
