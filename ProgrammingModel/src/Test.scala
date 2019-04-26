@@ -1,3 +1,3 @@
 object Test extends App{
-  print("test")
+  print(5.+(2))
 }
