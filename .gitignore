@@ -85,7 +85,10 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 
-ProgrammingModel/out/production/ProgrammingModel/META-INF/
-*/.class
 
 # End of https://www.gitignore.io/api/intellij
+
+#ignoring out directories
+out
+*.iml
+*.iml

@@ -1,0 +1,5 @@
+package DefaultDataStructures
+
+object Arrays {
+
+}

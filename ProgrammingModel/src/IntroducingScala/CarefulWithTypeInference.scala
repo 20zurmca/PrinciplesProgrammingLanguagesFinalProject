@@ -1,7 +1,9 @@
 package IntroducingScala
 
 /**
-  * CarefulWithTypeInference demonstrates some of the pitfalls wtih type inference
+  * CarefulWithTypeInference demonstrates some of the pitfalls with type inference
+  * Return types need to be specified in the following errors
+  * Uncomment code to see the errors
   */
 /*
 object CarefulWithTypeInference {
