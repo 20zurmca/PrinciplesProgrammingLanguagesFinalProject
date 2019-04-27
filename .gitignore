@@ -88,7 +88,7 @@ modules.xml
 
 # End of https://www.gitignore.io/api/intellij
 
-#ignoring out directories
+#ignoring out directories and misc files
 out
 *.iml
-*.iml
+.attach_pid4907
