@@ -9,12 +9,16 @@ object Bye extends App {
   println()
   deck1.shuffle_deck()
   deck1.print_deck()
-  //val player1 = new Player(deck1)
-  //player1.hit()
-  //player1.print_hand()
 
-  //val dealer = new Dealer(deck1)
-  //dealer.hit()
-  //dealer.print_hand()
+  println("\n ***PLAYER AND DEALER DEMO***\n")
+
+  //Player and dealer demo
+  val player1 = new Player(deck1)
+  player1.hit()
+  player1.print_hand()
+
+  val dealer = new Dealer(deck1)
+  dealer.hit()
+  dealer.print_hand()
 
 }
