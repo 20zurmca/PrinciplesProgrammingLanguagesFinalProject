@@ -8,6 +8,23 @@ class Card (var suit: String, var rank: Int){
   }
 
   def to_string(): (String) = {
-    "[" + suit + " " + rank + "]"
+    var name = ""
+
+    if (rank == 1) {
+      name = "Ace"
+    } else if (rank == 11) {
+      name = "Jack"
+    } else if (rank == 12) {
+      name = "Queen"
+    } else if (rank == 13) {
+      name = "King"
+    }
+
+    if (name == "") {
+      "[" + suit + " " + rank + "]"
+    } else {
+      "[" + suit + " " + name + "]"
+    }
+
   }
 }
