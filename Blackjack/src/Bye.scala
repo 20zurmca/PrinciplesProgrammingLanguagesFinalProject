@@ -3,6 +3,7 @@ import Blackjack.src.{Dealer, Deck, Player}
 object Bye extends App {
   //deck demo
   val deck1 = new Deck(2)
+  deck1.init_deck() //initializing the deck Garrett...dumbass
   //deck1.print_deck()
   //println()
   //println(deck1.draw_card().to_string())
