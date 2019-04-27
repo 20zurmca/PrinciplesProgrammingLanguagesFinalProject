@@ -1,23 +1,18 @@
 package Blackjack.src
 
-class Deck (val num_decks: Int) {
+class Deck (var num_decks: Int){
   //build the deck array
-  private[this] var deck_index = 0
-  private var deck = new Array[Card](52 * num_decks)
-
-  def init_deck(): Unit = {
-    for (i <- 0 until num_decks) {
-      for (j <- 0 until 4) {
-        for (k <- 0 until 13) {
-          var suit = ""
-          j match{
-            case 0 => suit = "Spade"
-            case 1 => suit = "Heart"
-            case 2 => suit = "Club"
-            case 3 => suit = "Diamond"
-          }
-          deck((i * 52) + (j * 13) + k) = new Card(suit, (k + 1))
-        }
+  var deck_index = 0
+  var deck =  new Array[Card](52*num_decks)
+  for(i <- 0 until num_decks){
+    for (j <- 0 until 4){
+      for (k <- 0 until 13){
+        var suit = ""
+        if( j == 0 ){ suit = "Spade"}
+        else if( j == 1){ suit = "Heart"}
+        else if( j == 2){ suit = "Club"}
+        else if( j == 3){ suit = "Diamond"}
+        deck((i*52)+(j*13)+k) = new Card(suit, (k+1))
       }
     }
   }
@@ -31,7 +26,6 @@ class Deck (val num_decks: Int) {
     }
     val temp = deck(deck_index)
     deck_index = deck_index + 1
-    println("Drawn card: " + temp.to_string())
     return temp
   }
 
@@ -44,11 +38,4 @@ class Deck (val num_decks: Int) {
       println(deck(i).to_string())
     }
   }
-}
-
-object testDeck extends App{
-  val d: Deck = new Deck(1)
-  d.init_deck
-
-  d.print_deck
 }
