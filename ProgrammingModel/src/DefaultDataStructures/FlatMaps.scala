@@ -1,5 +1,0 @@
-package DefaultDataStructures
-
-object FlatMaps {
-
-}

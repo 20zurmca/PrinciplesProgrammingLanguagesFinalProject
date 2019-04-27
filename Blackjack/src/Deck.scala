@@ -44,3 +44,10 @@ class Deck (val num_decks: Int) {
     }
   }
 }
+
+object testDeck extends App{
+  val d: Deck = new Deck(1)
+  d.init_deck
+
+  d.print_deck
+}
