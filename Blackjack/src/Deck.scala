@@ -31,6 +31,7 @@ class Deck (val num_decks: Int) {
     }
     val temp = deck(deck_index)
     deck_index = deck_index + 1
+    println("Drawn card: " + temp.to_string())
     return temp
   }
 

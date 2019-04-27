@@ -9,6 +9,10 @@ class Hand {
     hand += card
   }
 
+  def remove_card(index: Int): Unit = {
+    hand.remove(index)
+  }
+
   def value(): Int = {
     var aces_count = 0
     var total = 0

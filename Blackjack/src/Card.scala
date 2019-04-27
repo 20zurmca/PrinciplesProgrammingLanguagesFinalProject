@@ -8,6 +8,6 @@ class Card (var suit: String, var rank: Int){
   }
 
   def to_string(): (String) = {
-    suit + " " + rank
+    "[" + suit + " " + rank + "]"
   }
 }
