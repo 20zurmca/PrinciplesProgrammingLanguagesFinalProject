@@ -92,7 +92,8 @@ object TupleMatch extends App {
 
   for (tup <- List(tupA, tupB)) {
     tup match {
-      case (thingOne, thingTwo, thingThree) if thingOne == "Good" =>
+        //using a guard in next case here
+      case (thingOne:String, thingTwo, thingThree) => if("Good" == thingOne)
         println("A three-tuple starting with 'Good'. ")
       case (thingOne, thingTwo) => println("This has two things: " + thingOne + " and "
         + thingTwo)
@@ -100,6 +101,93 @@ object TupleMatch extends App {
   }
 }
 
+/**
+  * ClassMatch exhibits deep matching, examining the contents of objects in a pattern match
+  */
 object ClassMatch extends App{
+  //making a case class
+  case class Person(name: String, age: Int)
 
+  val alice = Person("Alice", 25)
+  val bob =  Person("Bob", 32)
+  val charlie = Person("Charlie", 32)
+
+  for(person <- List(alice, bob, charlie)){
+    person match{
+      case Person("Alice", 25) => println("Hi, Alice!")
+      case Person("Bob", 32) => println("Hi, Bob!")
+      case Person(name, age) =>
+        println("Who are you, " + age + " year-old person named " + name + "?")
+    }
+  }
+}
+
+/**
+  * ClassMatchNested exhibits Binding Nested Variables in Case Clauses
+  * Sometimes you want to bind a variable to an object enclosed in a match
+  */
+object ClassMatchNested extends App{
+  class Role
+  case object Manager extends Role
+  case object Developer extends Role
+
+  case class Person(name: String, age: Int, role: Role)
+
+  val alice = Person("Alice", 25, Developer)
+  val bob = Person("Bob", 32, Manager)
+  val charlie = Person("Charlie", 32, Developer)
+
+  for(item <- Map(1 -> alice, 2 -> bob, 3 -> charlie)){
+    item match{
+      case (id, p @ Person(_, _, Manager)) => println("%s is overpaid.\n".format(p))
+      case (id, p @ Person(_, _, _)) => println("%s is underpaid.\n".format(p))
+    }
+  }
+
+  //alternative matching on the role
+  for(item <- Map(1 -> alice, 2 -> bob, 3 -> charlie)){
+    item match{
+      case (id, p:Person) => p.role match{
+        case Manager => println("%s is overpaid.\n".format(p))
+        case _ => println("%s is underpaid.\n".format(p))
+    }
+  }
+ }
+}
+
+/**
+  * REMatch exhibits regular expression pattern matching
+  */
+object REMatch extends App{
+  val BookExtractorRE =  """Book: title=([^,]+),\s+authors=(.+)""".r
+  val MagazineExtractorRE = """Magazine: title=([^,]+),\s+issue=(.+)""".r
+
+  """
+    Notice that each of our regexes defines two capture groups, connoted by parentheses.
+    Each group captures the value of a single field in the record, such as a book’s title or
+    author. Regexes in Scala translate those capture groups to extractors. Every match sets
+    a field to the captured result; every miss is set to null.
+    Notice that each of our regexes defines two capture groups, connoted by parentheses.
+    Each group captures the value of a single field in the record, such as a book’s title or
+    author. Regexes in Scala translate those capture groups to extractors. Every match sets
+    a field to the captured result; every miss is set to null.
+  """
+
+  val catalog = List(
+    "Book: title=Programming Scala, authors=Dean Wampler, Alex Payne",
+    "Magazine: title=The New Yorker, issue=January 2009",
+    "Book: title=War and Peace, authors=Leo Tolstoy",
+    "Magazine: title=The Atlantic, issue=February 2009",
+    "BadData: text=Who put this here??"
+  )
+
+  for (item <- catalog){
+    item match{
+      case BookExtractorRE(title, authors) =>
+        println("Book \"" + title + "\", written by " + authors)
+      case MagazineExtractorRE(title, issue) =>
+        println("Magazine \"" + title + "\", issue " + issue)
+      case entry => println("Unrecognized entry: " + entry)
+    }
+  }
 }
