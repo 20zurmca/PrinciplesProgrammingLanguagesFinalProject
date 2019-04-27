@@ -3,7 +3,7 @@ package Blackjack.src
 class Deck (val num_decks: Int) {
   //build the deck array
   private[this] var deck_index = 0
-  private deck = new Array[Card](52 * num_decks)
+  private var deck = new Array[Card](52 * num_decks)
 
   def init_deck(): Unit = {
     for (i <- 0 until num_decks) {
