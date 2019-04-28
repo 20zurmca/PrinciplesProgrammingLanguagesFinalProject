@@ -1,7 +1,7 @@
 package Blackjack.src
 
 class Player (var deck: Deck) extends User {
-  val split_hand = new Hand
+  val split_hand = new Hand(default_bet)
   var is_split = false
 
   override def hit(): Unit = {

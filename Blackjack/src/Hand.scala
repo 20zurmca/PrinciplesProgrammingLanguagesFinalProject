@@ -2,8 +2,9 @@ package Blackjack.src
 
 import scala.collection.mutable.ArrayBuffer
 
-class Hand {
+class Hand(var bet: Int) {
   val hand: ArrayBuffer[Card] = ArrayBuffer.empty[Card]
+  var player_bet = bet
 
   def add_card(card: Card): Unit ={
     hand += card
@@ -34,5 +35,13 @@ class Hand {
       }
     }
     total
+  }
+
+  def get_bet(): Int ={
+    bet
+  }
+
+  def set_bet(temp_bet: Int){
+    player_bet = temp_bet
   }
 }
