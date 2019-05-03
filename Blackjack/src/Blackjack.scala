@@ -1,3 +1,5 @@
+package Blackjack.src
+
 import javax.swing.UIManager.LookAndFeelInfo
 import java.awt._
 import java.awt.event.ActionEvent
@@ -8,6 +10,7 @@ import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.event.MouseWheelEvent
 import java.awt.event.MouseWheelListener
+
 import javax.swing.border.Border
 import javax.swing._
 import javax.swing.JButton
@@ -28,6 +31,12 @@ object Blackjack {
 
 class GUI() //Constructor
   extends JFrame {
+
+  var new_game = new Game(1)
+
+  var loc = 50
+  val width_card = 130
+
   this.setTitle("Blackjack")
   this.setSize(763, 435)
   //pane with null layout
@@ -88,6 +97,31 @@ class GUI() //Constructor
   player_score.setVisible(true)
   this.add(player_score)
 
+  //add in Deal button
+  var deal_button = new JButton
+  deal_button.setBounds(1160, 530, 100, 100)
+  deal_button.setBackground(new Color(0, 152, 240))
+  deal_button.setOpaque(true)
+  deal_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
+  deal_button.setForeground(new Color(255, 255, 255))
+  deal_button.setEnabled(true)
+  deal_button.setFont(new Font("Segoe UI Black", 0, 28))
+  deal_button.setText("Deal")
+  deal_button.setVisible(true)
+  deal_button.setEnabled(true)
+  this.add(deal_button)
+
+  deal_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      hit_button.setVisible(true)
+      stand_button.setVisible(true)
+      split_button.setVisible(true)
+      deal_button.setVisible(false)
+      new_game.start_deal()
+      println("Deal button")
+      new_game.player.print_hand()
+    }
+  })
 
   //add in hit button
   var hit_button = new JButton
@@ -97,9 +131,9 @@ class GUI() //Constructor
   hit_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
   hit_button.setForeground(new Color(255, 255, 255))
   hit_button.setEnabled(true)
-  hit_button.setFont(new Font("Segoe UI Black", 0, 40))
+  hit_button.setFont(new Font("Segoe UI Black", 0, 28))
   hit_button.setText("Hit")
-  hit_button.setVisible(true)
+  hit_button.setVisible(false)
   hit_button.setEnabled(true)
   this.add(hit_button)
 
@@ -120,7 +154,7 @@ class GUI() //Constructor
   stand_button.setEnabled(true)
   stand_button.setFont(new Font("Segoe UI Black", 0, 28))
   stand_button.setText("Stand")
-  stand_button.setVisible(true)
+  stand_button.setVisible(false)
   stand_button.setEnabled(true)
   this.add(stand_button)
 
@@ -140,7 +174,7 @@ class GUI() //Constructor
   split_button.setEnabled(true)
   split_button.setFont(new Font("Segoe UI Black", 0, 28))
   split_button.setText("Split")
-  split_button.setVisible(true)
+  split_button.setVisible(false)
   split_button.setEnabled(true)
   this.add(split_button)
 
@@ -150,6 +184,9 @@ class GUI() //Constructor
     }
   })
 
+  this.add(get_new_card(loc, 432))
+
+  /*
   //Create a Card Image
   var card_image = new ImageIcon("./Cards/red_back.png")
   var raw_image = card_image.getImage() //scale image
@@ -190,12 +227,24 @@ class GUI() //Constructor
   this.add(card_label3)
 
   /* End of Extra Card tests */
-
+*/
   //adding panel to JFrame and seting of window position and close operation
   this.add(contentPane)
   this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
   this.setLocationRelativeTo(null)
   this.pack()
   this.setVisible(true)
+
+  def get_new_card(start_loc: Int, height_spot: Int): JLabel = {
+    var card_image = new ImageIcon("./Cards/red_back.png")
+    var raw_image = card_image.getImage() //scale image
+    var final_card_image = raw_image.getScaledInstance(103, 157, java.awt.Image.SCALE_SMOOTH) //overwrite un scaled image
+    card_image = new ImageIcon(final_card_image) //create as  JLabel
+    var card_label = new JLabel(card_image)
+    card_label.setBounds(start_loc, height_spot, 103, 157)
+    loc+=width_card //increment location of next card
+    card_label.setVisible(true)
+    return card_label
+  }
 
 }
