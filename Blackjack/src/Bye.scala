@@ -1,4 +1,4 @@
-import Blackjack.src.{Dealer, Deck, Player}
+/*import Blackjack.src.{Dealer, Deck, Player}
 
 object Bye extends App {
   //deck demo
@@ -19,6 +19,6 @@ object Bye extends App {
 
   val dealer = new Dealer(deck1)
   dealer.hit()
-  dealer.print_hand()
+  dealer.print_hand()*/
 
-}
+//}
