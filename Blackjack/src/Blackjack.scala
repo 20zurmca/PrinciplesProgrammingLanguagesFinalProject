@@ -34,8 +34,10 @@ class GUI() //Constructor
 
   var new_game = new Game(1)
 
-  var loc = 50
+  var p_loc = 50
+  var d_loc = 50
   val width_card = 130
+  var possible_split: JLabel = null
 
   this.setTitle("Blackjack")
   this.setSize(763, 435)
@@ -51,7 +53,6 @@ class GUI() //Constructor
   button_split.setBackground(Color.BLACK)
   button_split.setEnabled(true)
   button_split.setVisible(true)
-  this.add(button_split)
 
   //split game area from button area
   var area_split = new JPanel(null)
@@ -59,7 +60,6 @@ class GUI() //Constructor
   area_split.setBackground(Color.BLACK)
   area_split.setEnabled(true)
   area_split.setVisible(true)
-  this.add(area_split)
 
   //display dealer text
   var dealer_text = new JLabel("Dealer")
@@ -68,7 +68,6 @@ class GUI() //Constructor
   dealer_text.setForeground((Color.WHITE))
   dealer_text.setEnabled(true)
   dealer_text.setVisible(true)
-  this.add(dealer_text)
 
   //display player text
   var player_text = new JLabel("Player")
@@ -77,7 +76,6 @@ class GUI() //Constructor
   player_text.setForeground((Color.WHITE))
   player_text.setEnabled(true)
   player_text.setVisible(true)
-  this.add(player_text)
 
   //display dealer score
   var dealer_score = new JLabel("Dealer Wins: 0")
@@ -86,7 +84,6 @@ class GUI() //Constructor
   dealer_score.setForeground((Color.WHITE))
   dealer_score.setEnabled(true)
   dealer_score.setVisible(true)
-  this.add(dealer_score)
 
   //display player score
   var player_score = new JLabel("Player Wins: 0")
@@ -95,7 +92,6 @@ class GUI() //Constructor
   player_score.setForeground((Color.WHITE))
   player_score.setEnabled(true)
   player_score.setVisible(true)
-  this.add(player_score)
 
   //add in Deal button
   var deal_button = new JButton
@@ -109,19 +105,6 @@ class GUI() //Constructor
   deal_button.setText("Deal")
   deal_button.setVisible(true)
   deal_button.setEnabled(true)
-  this.add(deal_button)
-
-  deal_button.addMouseListener(new MouseAdapter() {
-    override def mouseClicked(evt: MouseEvent): Unit = {
-      hit_button.setVisible(true)
-      stand_button.setVisible(true)
-      split_button.setVisible(true)
-      deal_button.setVisible(false)
-      new_game.start_deal()
-      println("Deal button")
-      new_game.player.print_hand()
-    }
-  })
 
   //add in hit button
   var hit_button = new JButton
@@ -135,14 +118,6 @@ class GUI() //Constructor
   hit_button.setText("Hit")
   hit_button.setVisible(false)
   hit_button.setEnabled(true)
-  this.add(hit_button)
-
-  hit_button.addMouseListener(new MouseAdapter() {
-    override def mouseClicked(evt: MouseEvent): Unit = {
-      println("Hit button")
-      //System.exit(0)
-    }
-  })
 
   //add in stand button
   var stand_button = new JButton
@@ -156,13 +131,6 @@ class GUI() //Constructor
   stand_button.setText("Stand")
   stand_button.setVisible(false)
   stand_button.setEnabled(true)
-  this.add(stand_button)
-
-  stand_button.addMouseListener(new MouseAdapter() {
-    override def mouseClicked(evt: MouseEvent): Unit = {
-      println("Stand button")
-    }
-  })
 
   //add in split button
   var split_button = new JButton
@@ -176,15 +144,8 @@ class GUI() //Constructor
   split_button.setText("Split")
   split_button.setVisible(false)
   split_button.setEnabled(true)
-  this.add(split_button)
 
-  split_button.addMouseListener(new MouseAdapter() {
-    override def mouseClicked(evt: MouseEvent): Unit = {
-      println("Split button")
-    }
-  })
-
-  this.add(get_new_card(loc, 432))
+  //this.add(get_new_card(loc, 432))
 
   /*
   //Create a Card Image
@@ -227,22 +188,137 @@ class GUI() //Constructor
   this.add(card_label3)
 
   /* End of Extra Card tests */
-*/
-  //adding panel to JFrame and seting of window position and close operation
+  */
+
+  deal_button.addActionListener(new ActionListener() {
+    override def actionPerformed(e: ActionEvent): Unit = {
+      hit_button.setVisible(true)
+      stand_button.setVisible(true)
+      split_button.setVisible(true)
+      deal_button.setVisible(false)
+      new_game.start_deal() //deal out game
+
+      var dealer_size = new_game.dealer.hand_size()
+      var d_second = new_game.dealer.get_card(dealer_size-1)
+
+      var player_size = new_game.player.hand_size()
+      var p_first = new_game.player.get_card(player_size-2)
+      var p_second = new_game.player.get_card(player_size-1)
+
+      //add in dealer cards
+
+      contentPane.add(get_new_card(d_loc, 105, null, false))
+      d_loc+=width_card //increment location of next card
+
+      contentPane.add(get_new_card(d_loc, 105, d_second, true))
+      d_loc+=width_card //increment location of next card
+
+      //add in player cards
+
+      contentPane.add(get_new_card(p_loc, 432, p_first, true))
+      p_loc+=width_card //increment location of next card
+
+      possible_split = get_new_card(p_loc, 432, p_second, true) //assign to split for card removal later
+      contentPane.add(possible_split)
+      p_loc+=width_card //increment location of next card
+
+      GUI.this.repaint()
+
+      println("Deal button")
+      new_game.player.print_hand()
+      new_game.dealer.print_hand()
+    }
+  })
+
+  hit_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      var player_size = new_game.player.hand_size()
+
+      if (player_size < 6) {
+        new_game.player_hit()
+
+        var p_card = new_game.player.get_card(player_size)
+
+        contentPane.add(get_new_card(p_loc, 432, p_card, true))
+        p_loc += width_card //increment location of next card
+
+        GUI.this.repaint()
+      }
+
+      println("Hit button")
+      new_game.player.print_hand()
+    }
+  })
+
+  stand_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      println("Stand button")
+    }
+  })
+
+  split_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      println("Split button")
+    }
+  })
+
+  //add in everything to canvas
+  contentPane.add(button_split)
+  contentPane.add(area_split)
+  contentPane.add(dealer_text)
+  contentPane.add(player_text)
+  contentPane.add(dealer_score)
+  contentPane.add(player_score)
+  contentPane.add(deal_button)
+  contentPane.add(hit_button)
+  contentPane.add(stand_button)
+  contentPane.add(split_button)
+
   this.add(contentPane)
   this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
   this.setLocationRelativeTo(null)
   this.pack()
   this.setVisible(true)
 
-  def get_new_card(start_loc: Int, height_spot: Int): JLabel = {
-    var card_image = new ImageIcon("./Cards/red_back.png")
+  def get_new_card(start_loc: Int, height_spot: Int, card: Card, flipped: Boolean): JLabel = {
+    var file_path = "./Cards/"
+    if (flipped) {
+      var suit = card.suit
+      var rank = card.rank
+      var temp_suit = ""
+      var temp_rank = ""
+
+      if (suit == "Spade") temp_suit = "S"
+      else if (suit == "Heart") temp_suit = "H"
+      else if (suit == "Club") temp_suit = "C"
+      else if (suit == "Diamond") temp_suit = "D"
+
+      if (rank == 1) temp_rank = "A"
+      else if (rank == 2) temp_rank = "2"
+      else if (rank == 3) temp_rank = "3"
+      else if (rank == 4) temp_rank = "4"
+      else if (rank == 5) temp_rank = "5"
+      else if (rank == 6) temp_rank = "6"
+      else if (rank == 7) temp_rank = "7"
+      else if (rank == 8) temp_rank = "8"
+      else if (rank == 9) temp_rank = "9"
+      else if (rank == 10) temp_rank = "10"
+      else if (rank == 11) temp_rank = "11"
+      else if (rank == 12) temp_rank = "12"
+      else if (rank == 13) temp_rank = "13"
+
+      file_path = file_path + temp_rank + temp_suit + ".png"
+    } else {
+      file_path = file_path + "red_back.png"
+    }
+
+    var card_image = new ImageIcon(file_path)
+
     var raw_image = card_image.getImage() //scale image
     var final_card_image = raw_image.getScaledInstance(103, 157, java.awt.Image.SCALE_SMOOTH) //overwrite un scaled image
     card_image = new ImageIcon(final_card_image) //create as  JLabel
     var card_label = new JLabel(card_image)
     card_label.setBounds(start_loc, height_spot, 103, 157)
-    loc+=width_card //increment location of next card
     card_label.setVisible(true)
     return card_label
   }

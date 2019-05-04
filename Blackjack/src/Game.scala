@@ -50,3 +50,5 @@ class Game (var num_deck: Int) {
   }
 
 }
+
+//need method in here to check if player can hit again or if dealer can hit again. be sure to include split case in player

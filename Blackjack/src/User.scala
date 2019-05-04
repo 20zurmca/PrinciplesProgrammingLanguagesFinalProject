@@ -11,6 +11,14 @@ trait User {
 
   def print_hand(): Unit
 
+  def get_card(num: Int): Card = {
+    return user_hand.hand(num)
+  }
+
+  def hand_size(): Int = {
+    return user_hand.hand.size
+  }
+
   def start_turn(): Unit = {
     active_turn = true
     //get the player bet
