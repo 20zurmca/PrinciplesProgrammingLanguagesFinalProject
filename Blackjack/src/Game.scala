@@ -21,6 +21,10 @@ class Game (var num_deck: Int) {
     player.hit()
   }
 
+  def player_hit_split(): Unit = {
+    player.hit_split()
+  }
+
   def player_stand(): Unit = {
     player.stand()
   }

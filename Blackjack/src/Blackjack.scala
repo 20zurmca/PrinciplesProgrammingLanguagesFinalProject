@@ -36,8 +36,12 @@ class GUI() //Constructor
 
   var p_loc = 50
   var d_loc = 50
+  var split_loc1 = 50
+  var split_loc2 = 50
   val width_card = 130
-  var possible_split: JLabel = null
+  val split_width = 85
+  var possible_split1: JLabel = null
+  var possible_split2: JLabel = null
 
   this.setTitle("Blackjack")
   this.setSize(763, 435)
@@ -145,6 +149,58 @@ class GUI() //Constructor
   split_button.setVisible(false)
   split_button.setEnabled(true)
 
+  //add in hit top button
+  var hittop_button = new JButton
+  hittop_button.setBounds(1160, 530, 100, 100)
+  hittop_button.setBackground(new Color(0, 152, 240))
+  hittop_button.setOpaque(true)
+  hittop_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
+  hittop_button.setForeground(new Color(255, 255, 255))
+  hittop_button.setEnabled(true)
+  hittop_button.setFont(new Font("Segoe UI Black", 0, 18))
+  hittop_button.setText("Hit Upper")
+  hittop_button.setVisible(false)
+  hittop_button.setEnabled(true)
+
+  //add in hit lower button
+  var hitlower_button = new JButton
+  hitlower_button.setBounds(1160, 400, 100, 100)
+  hitlower_button.setBackground(new Color(0, 152, 240))
+  hitlower_button.setOpaque(true)
+  hitlower_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
+  hitlower_button.setForeground(new Color(255, 255, 255))
+  hitlower_button.setEnabled(true)
+  hitlower_button.setFont(new Font("Segoe UI Black", 0, 18))
+  hitlower_button.setText("Hit Lower")
+  hitlower_button.setVisible(false)
+  hitlower_button.setEnabled(true)
+
+  //add in stand upper button
+  var stand_top_button = new JButton
+  stand_top_button.setBounds(1160, 270, 100, 100)
+  stand_top_button.setBackground(new Color(0, 152, 240))
+  stand_top_button.setOpaque(true)
+  stand_top_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
+  stand_top_button.setForeground(new Color(255, 255, 255))
+  stand_top_button.setEnabled(true)
+  stand_top_button.setFont(new Font("Segoe UI Black", 0, 14))
+  stand_top_button.setText("Stand Upper")
+  stand_top_button.setVisible(false)
+  stand_top_button.setEnabled(true)
+
+  //add in stand lower button
+  var stand_lower_button = new JButton
+  stand_lower_button.setBounds(1160, 140, 100, 100)
+  stand_lower_button.setBackground(new Color(0, 152, 240))
+  stand_lower_button.setOpaque(true)
+  stand_lower_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
+  stand_lower_button.setForeground(new Color(255, 255, 255))
+  stand_lower_button.setEnabled(true)
+  stand_lower_button.setFont(new Font("Segoe UI Black", 0, 14))
+  stand_lower_button.setText("Stand Lower")
+  stand_lower_button.setVisible(false)
+  stand_lower_button.setEnabled(true)
+
   //this.add(get_new_card(loc, 432))
 
   /*
@@ -215,11 +271,12 @@ class GUI() //Constructor
 
       //add in player cards
 
-      contentPane.add(get_new_card(p_loc, 432, p_first, true))
+      possible_split1 = get_new_card(p_loc, 432, p_first, true)
+      contentPane.add(possible_split1)
       p_loc+=width_card //increment location of next card
 
-      possible_split = get_new_card(p_loc, 432, p_second, true) //assign to split for card removal later
-      contentPane.add(possible_split)
+      possible_split2 = get_new_card(p_loc, 432, p_second, true) //assign to split for card removal later
+      contentPane.add(possible_split2)
       p_loc+=width_card //increment location of next card
 
       GUI.this.repaint()
@@ -258,7 +315,90 @@ class GUI() //Constructor
 
   split_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
+      hit_button.setVisible(false)
+      hittop_button.setVisible(true)
+      hitlower_button.setVisible(true)
+      stand_button.setVisible(false)
+      stand_top_button.setVisible(true)
+      stand_lower_button.setVisible(true)
+
+      possible_split1.setVisible(false)
+      possible_split2.setVisible(false)
+
+      new_game.player_split()
+
+      var player_size = new_game.player.hand_size()
+      var split_size = new_game.player.split_hand_size()
+      var p_first = new_game.player.get_card(player_size-1)
+      var p_second = new_game.player.get_split_card(split_size-1)
+
+      contentPane.add(get_new_card_split(split_loc1, 432, p_first))
+      split_loc1+=split_width //increment location of next card
+
+      contentPane.add(get_new_card_split(split_loc2, 537, p_second))
+      split_loc2+=split_width //increment location of next card
+
+      split_button.setVisible(false)
+
+      GUI.this.repaint()
+      //possible_split.setVisible(false)
       println("Split button")
+      new_game.player.print_hand()
+      new_game.player.print_split_hand()
+    }
+  })
+
+  hittop_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      var player_size = new_game.player.hand_size()
+
+      if (player_size < 6) {
+        new_game.player_hit()
+
+        var p_card = new_game.player.get_card(player_size)
+
+        contentPane.add(get_new_card_split(split_loc1, 432, p_card))
+        split_loc1 += split_width //increment location of next card
+
+        GUI.this.repaint()
+      }
+
+      println("Hit Upper button")
+      new_game.player.print_hand()
+      new_game.player.print_split_hand()
+    }
+  })
+
+  hitlower_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      var player_split_size = new_game.player.split_hand_size()
+
+      if (player_split_size < 6) {
+        new_game.player_hit_split()
+
+        var p_card = new_game.player.get_split_card(player_split_size)
+
+        contentPane.add(get_new_card_split(split_loc2, 537, p_card))
+        split_loc2 += split_width //increment location of next card
+
+        GUI.this.repaint()
+      }
+
+      println("Hit Lower button")
+      new_game.player.print_hand()
+      new_game.player.print_split_hand()
+    }
+  })
+
+  stand_top_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      println("Stand Upper button")
+    }
+  })
+
+  stand_lower_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      println("Stand Lower button")
     }
   })
 
@@ -273,6 +413,10 @@ class GUI() //Constructor
   contentPane.add(hit_button)
   contentPane.add(stand_button)
   contentPane.add(split_button)
+  contentPane.add(hittop_button)
+  contentPane.add(hitlower_button)
+  contentPane.add(stand_top_button)
+  contentPane.add(stand_lower_button)
 
   this.add(contentPane)
   this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
@@ -303,9 +447,9 @@ class GUI() //Constructor
       else if (rank == 8) temp_rank = "8"
       else if (rank == 9) temp_rank = "9"
       else if (rank == 10) temp_rank = "10"
-      else if (rank == 11) temp_rank = "11"
-      else if (rank == 12) temp_rank = "12"
-      else if (rank == 13) temp_rank = "13"
+      else if (rank == 11) temp_rank = "J"
+      else if (rank == 12) temp_rank = "Q"
+      else if (rank == 13) temp_rank = "K"
 
       file_path = file_path + temp_rank + temp_suit + ".png"
     } else {
@@ -319,6 +463,45 @@ class GUI() //Constructor
     card_image = new ImageIcon(final_card_image) //create as  JLabel
     var card_label = new JLabel(card_image)
     card_label.setBounds(start_loc, height_spot, 103, 157)
+    card_label.setVisible(true)
+    return card_label
+  }
+
+  def get_new_card_split(start_loc: Int, height_spot: Int, card: Card): JLabel = {
+    var file_path = "./Cards/"
+    var suit = card.suit
+    var rank = card.rank
+    var temp_suit = ""
+    var temp_rank = ""
+
+    if (suit == "Spade") temp_suit = "S"
+    else if (suit == "Heart") temp_suit = "H"
+    else if (suit == "Club") temp_suit = "C"
+    else if (suit == "Diamond") temp_suit = "D"
+
+    if (rank == 1) temp_rank = "A"
+    else if (rank == 2) temp_rank = "2"
+    else if (rank == 3) temp_rank = "3"
+    else if (rank == 4) temp_rank = "4"
+    else if (rank == 5) temp_rank = "5"
+    else if (rank == 6) temp_rank = "6"
+    else if (rank == 7) temp_rank = "7"
+    else if (rank == 8) temp_rank = "8"
+    else if (rank == 9) temp_rank = "9"
+    else if (rank == 10) temp_rank = "10"
+    else if (rank == 11) temp_rank = "J"
+    else if (rank == 12) temp_rank = "Q"
+    else if (rank == 13) temp_rank = "K"
+
+    file_path = file_path + temp_rank + temp_suit + ".png"
+
+    var card_image = new ImageIcon(file_path)
+
+    var raw_image = card_image.getImage() //scale image
+    var final_card_image = raw_image.getScaledInstance(55, 85, java.awt.Image.SCALE_SMOOTH) //overwrite un scaled image
+    card_image = new ImageIcon(final_card_image) //create as  JLabel
+    var card_label = new JLabel(card_image)
+    card_label.setBounds(start_loc, height_spot, 55, 85)
     card_label.setVisible(true)
     return card_label
   }
