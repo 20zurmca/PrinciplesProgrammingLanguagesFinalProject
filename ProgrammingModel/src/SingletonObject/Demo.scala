@@ -25,6 +25,9 @@ class Test{
 
 import scala.math._
 
+/**
+  * A singleton circle object
+  */
 object Circle{
   private def calculateArea(radius: Double): Double = Pi * pow(radius, 2.0)
 }

@@ -1,7 +1,7 @@
 package Enum
 
 /**
-  * Exhibits the behavior of Enumeration superclass
+  * Exhibits the behavior of Enumeration class
   */
 object Demo extends App{
 
@@ -9,7 +9,7 @@ object Demo extends App{
     type WeekDay = Value
     val Mon, Tue, Wed, Thu, Fri, Sat, Sun = Value
   }
-  import WeekDay._ //can throw relative imports where needed
+  import WeekDay._ //can throw relative imports where needed in Scala
 
   def isWorkingDay(d: WeekDay) = ! (d == Sat || d == Sun)
 
