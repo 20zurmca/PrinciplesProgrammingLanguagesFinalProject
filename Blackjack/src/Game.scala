@@ -21,6 +21,10 @@ class Game (var num_deck: Int) {
     player.hit()
   }
 
+  def player_hit_split(): Unit = {
+    player.hit_split()
+  }
+
   def player_stand(): Unit = {
     player.stand()
   }
@@ -50,3 +54,5 @@ class Game (var num_deck: Int) {
   }
 
 }
+
+//need method in here to check if player can hit again or if dealer can hit again. be sure to include split case in player

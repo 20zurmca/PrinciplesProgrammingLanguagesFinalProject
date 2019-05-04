@@ -5,39 +5,54 @@ class Player (var deck: Deck) extends User {
   var is_split = false
 
   override def hit(): Unit = {
-
-    if (is_split) {
-      split_hand.add_card(deck.draw_card())
-    }
-
     user_hand.add_card(deck.draw_card())
+  }
+
+  def hit_split(): Unit = {
+    split_hand.add_card(deck.draw_card())
   }
 
   def split(): Unit = {
     val size = user_hand.hand.size
 
-    if (size == 2) {
+    //if (size == 2) {
       //get first 2 cards
       val temp_card = user_hand.hand(0)
       val temp_card2 = user_hand.hand(1)
 
       //check if they have the same number
-      if (temp_card.value()._2 == temp_card2.value()._2) {
+      //if (temp_card.value()._2 == temp_card2.value()._2) {
         split_hand.add_card(temp_card2) //add second card to split deck
         user_hand.remove_card(1) //remove second card
         is_split = true
-      }
-    }
+      //}
+    //}
   }
 
   override def stand(): Unit = {
     //Literally do nothing
   }
 
+  def get_split_card(num: Int): Card = {
+    return split_hand.hand(num)
+  }
+
+  def split_hand_size(): Int = {
+    return split_hand.hand.size
+  }
+
   override def print_hand(): Unit = {
     print("Player Hand: ")
     for (i <- 0 until user_hand.hand.size) {
       print(user_hand.hand(i).to_string() + " ")
+    }
+    println()
+  }
+
+  def print_split_hand(): Unit = {
+    print("Player Split Hand: ")
+    for (i <- 0 until split_hand.hand.size) {
+      print(split_hand.hand(i).to_string() + " ")
     }
     println()
   }

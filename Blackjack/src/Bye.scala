@@ -1,4 +1,4 @@
-/*import Blackjack.src.{Dealer, Deck, Player}
+package Blackjack.src
 
 object Bye extends App {
   //deck demo
