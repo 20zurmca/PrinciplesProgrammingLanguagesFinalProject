@@ -14,6 +14,7 @@ import java.awt.event.MouseWheelListener
 import javax.swing.border.Border
 import javax.swing._
 import javax.swing.JButton
+import scala.collection.mutable.ArrayBuffer
 
 
 
@@ -42,6 +43,7 @@ class GUI() //Constructor
   val split_width = 85
   var possible_split1: JLabel = null
   var possible_split2: JLabel = null
+  var all_cards: ArrayBuffer[JLabel] = ArrayBuffer.empty[JLabel]
 
   this.setTitle("Blackjack")
   this.setSize(763, 435)
@@ -73,6 +75,14 @@ class GUI() //Constructor
   dealer_text.setEnabled(true)
   dealer_text.setVisible(true)
 
+  //display dealer winner text
+  var dealerw_text = new JLabel("Winner!")
+  dealerw_text.setBounds(250, -10, 200, 100)
+  dealerw_text.setFont(new Font("Segoe UI Black", 0, 40))
+  dealerw_text.setForeground((Color.GREEN))
+  dealerw_text.setEnabled(true)
+  dealerw_text.setVisible(false)
+
   //display player text
   var player_text = new JLabel("Player")
   player_text.setBounds(30, 317, 200, 100)
@@ -80,6 +90,14 @@ class GUI() //Constructor
   player_text.setForeground((Color.WHITE))
   player_text.setEnabled(true)
   player_text.setVisible(true)
+
+  //display player winner text
+  var playerw_text = new JLabel("Winner!")
+  playerw_text.setBounds(250, 317, 200, 100)
+  playerw_text.setFont(new Font("Segoe UI Black", 0, 40))
+  playerw_text.setForeground((Color.GREEN))
+  playerw_text.setEnabled(true)
+  playerw_text.setVisible(false)
 
   //display dealer score
   var dealer_score = new JLabel("Dealer Wins: 0")
@@ -201,50 +219,18 @@ class GUI() //Constructor
   stand_lower_button.setVisible(false)
   stand_lower_button.setEnabled(true)
 
-  //this.add(get_new_card(loc, 432))
-
-  /*
-  //Create a Card Image
-  var card_image = new ImageIcon("./Cards/red_back.png")
-  var raw_image = card_image.getImage() //scale image
-  var final_card_image = raw_image.getScaledInstance(103, 157, java.awt.Image.SCALE_SMOOTH) //overwrite un scaled image
-  card_image = new ImageIcon(final_card_image) //create as  JLabel
-  var card_label = new JLabel(card_image)
-  card_label.setBounds(50, 105, 103, 157)
-  card_label.setVisible(true)
-  this.add(card_label)
-
-  /* Following 3 display testing of cards */
-
-  var card_image1 = new ImageIcon("./Cards/3C.png")
-  var raw_image1 = card_image1.getImage() //scale image
-  var final_card_image1 = raw_image1.getScaledInstance(103, 157, java.awt.Image.SCALE_SMOOTH) //overwrite un scaled image
-  card_image1 = new ImageIcon(final_card_image1) //create as  JLabel
-  var card_label1 = new JLabel(card_image1)
-  card_label1.setBounds(50, 432, 103, 157)
-  card_label1.setVisible(true)
-  this.add(card_label1)
-
-  var card_image2 = new ImageIcon("./Cards/6D.png")
-  var raw_image2 = card_image2.getImage() //scale image
-  var final_card_image2 = raw_image2.getScaledInstance(103, 157, java.awt.Image.SCALE_SMOOTH) //overwrite un scaled image
-  card_image2 = new ImageIcon(final_card_image2) //create as  JLabel
-  var card_label2 = new JLabel(card_image2)
-  card_label2.setBounds(183, 105, 103, 157)
-  card_label2.setVisible(true)
-  this.add(card_label2)
-
-  var card_image3 = new ImageIcon("./Cards/AS.png")
-  var raw_image3 = card_image3.getImage() //scale image
-  var final_card_image3 = raw_image3.getScaledInstance(103, 157, java.awt.Image.SCALE_SMOOTH) //overwrite un scaled image
-  card_image3 = new ImageIcon(final_card_image3) //create as  JLabel
-  var card_label3 = new JLabel(card_image3)
-  card_label3.setBounds(183, 432, 103, 157)
-  card_label3.setVisible(true)
-  this.add(card_label3)
-
-  /* End of Extra Card tests */
-  */
+  //add in new game button
+  var new_game_button = new JButton
+  new_game_button.setBounds(1160, 530, 100, 100)
+  new_game_button.setBackground(new Color(0, 152, 240))
+  new_game_button.setOpaque(true)
+  new_game_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
+  new_game_button.setForeground(new Color(255, 255, 255))
+  new_game_button.setEnabled(true)
+  new_game_button.setFont(new Font("Segoe UI Black", 0, 24))
+  new_game_button.setText("New Game")
+  new_game_button.setVisible(false)
+  new_game_button.setEnabled(true)
 
   deal_button.addActionListener(new ActionListener() {
     override def actionPerformed(e: ActionEvent): Unit = {
@@ -255,6 +241,7 @@ class GUI() //Constructor
       new_game.start_deal() //deal out game
 
       var dealer_size = new_game.dealer.hand_size()
+      var d_first = new_game.dealer.get_card(dealer_size-2)
       var d_second = new_game.dealer.get_card(dealer_size-1)
 
       var player_size = new_game.player.hand_size()
@@ -263,10 +250,17 @@ class GUI() //Constructor
 
       //add in dealer cards
 
-      contentPane.add(get_new_card(d_loc, 105, null, false))
+      //blank card
+      var temp_1 = get_new_card(d_loc, 105, null, false)
+      contentPane.add(temp_1)
       d_loc+=width_card //increment location of next card
 
-      contentPane.add(get_new_card(d_loc, 105, d_second, true))
+      var temp_2 = get_new_card(50, 105, d_first, true)
+      contentPane.add(temp_2)
+      temp_2.setVisible(false)
+
+      var temp_3 = get_new_card(d_loc, 105, d_second, true)
+      contentPane.add(temp_3)
       d_loc+=width_card //increment location of next card
 
       //add in player cards
@@ -278,6 +272,13 @@ class GUI() //Constructor
       possible_split2 = get_new_card(p_loc, 432, p_second, true) //assign to split for card removal later
       contentPane.add(possible_split2)
       p_loc+=width_card //increment location of next card
+
+      //add all cards to array
+      all_cards+=temp_1
+      all_cards+=temp_2
+      all_cards+=temp_3
+      all_cards+=possible_split1
+      all_cards+=possible_split2
 
       GUI.this.repaint()
 
@@ -296,8 +297,11 @@ class GUI() //Constructor
 
         var p_card = new_game.player.get_card(player_size)
 
-        contentPane.add(get_new_card(p_loc, 432, p_card, true))
+        var temp_1 = get_new_card(p_loc, 432, p_card, true)
+        contentPane.add(temp_1)
         p_loc += width_card //increment location of next card
+
+        all_cards+=temp_1
 
         GUI.this.repaint()
       }
@@ -332,13 +336,18 @@ class GUI() //Constructor
       var p_first = new_game.player.get_card(player_size-1)
       var p_second = new_game.player.get_split_card(split_size-1)
 
-      contentPane.add(get_new_card_split(split_loc1, 432, p_first))
+      var temp_1 = get_new_card_split(split_loc1, 432, p_first)
+      contentPane.add(temp_1)
       split_loc1+=split_width //increment location of next card
 
-      contentPane.add(get_new_card_split(split_loc2, 537, p_second))
+      var temp_2 = get_new_card_split(split_loc2, 537, p_second)
+      contentPane.add(temp_2)
       split_loc2+=split_width //increment location of next card
 
       split_button.setVisible(false)
+
+      all_cards+=temp_1
+      all_cards+=temp_2
 
       GUI.this.repaint()
       //possible_split.setVisible(false)
@@ -357,8 +366,11 @@ class GUI() //Constructor
 
         var p_card = new_game.player.get_card(player_size)
 
-        contentPane.add(get_new_card_split(split_loc1, 432, p_card))
+        var temp_1 = get_new_card_split(split_loc1, 432, p_card)
+        contentPane.add(temp_1)
         split_loc1 += split_width //increment location of next card
+
+        all_cards+=temp_1
 
         GUI.this.repaint()
       }
@@ -378,8 +390,11 @@ class GUI() //Constructor
 
         var p_card = new_game.player.get_split_card(player_split_size)
 
-        contentPane.add(get_new_card_split(split_loc2, 537, p_card))
+        var temp_1 = get_new_card_split(split_loc2, 537, p_card)
+        contentPane.add(temp_1)
         split_loc2 += split_width //increment location of next card
+
+        all_cards+=temp_1
 
         GUI.this.repaint()
       }
@@ -402,11 +417,34 @@ class GUI() //Constructor
     }
   })
 
+  new_game_button.addMouseListener(new MouseAdapter() {
+    override def mouseClicked(evt: MouseEvent): Unit = {
+      remove_cards()
+      new_game.new_game()
+
+      p_loc = 50
+      d_loc = 50
+      split_loc1 = 50
+      split_loc2 = 50
+      possible_split1 = null
+      possible_split2 = null
+
+      dealerw_text.setVisible(false)
+      playerw_text.setVisible(false)
+      new_game_button.setVisible(false)
+      deal_button.setVisible(true)
+
+      println("New game button")
+    }
+  })
+
   //add in everything to canvas
   contentPane.add(button_split)
   contentPane.add(area_split)
   contentPane.add(dealer_text)
+  contentPane.add(dealerw_text)
   contentPane.add(player_text)
+  contentPane.add(playerw_text)
   contentPane.add(dealer_score)
   contentPane.add(player_score)
   contentPane.add(deal_button)
@@ -417,6 +455,7 @@ class GUI() //Constructor
   contentPane.add(hitlower_button)
   contentPane.add(stand_top_button)
   contentPane.add(stand_lower_button)
+  contentPane.add(new_game_button)
 
   this.add(contentPane)
   this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
@@ -504,6 +543,15 @@ class GUI() //Constructor
     card_label.setBounds(start_loc, height_spot, 55, 85)
     card_label.setVisible(true)
     return card_label
+  }
+
+  def remove_cards(): Unit = {
+    for (i <- 0 until all_cards.size) {
+      contentPane.remove(all_cards(i))
+    }
+
+    all_cards.clear()
+    this.repaint()
   }
 
 }
