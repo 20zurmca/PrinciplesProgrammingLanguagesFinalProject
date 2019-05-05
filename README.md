@@ -19,7 +19,7 @@ To set up a Scala project within IntelliJ, consult this site: https://docs.scala
 If you just want to run our code, you would select "open project" after opening IntelliJ and select either the Blackjack directory or ProgrammingModel for the various Scala examples. Make sure the Scala sdk and Java jdk are configured after loading in the project. The Scala sdk can be downloaded within the IDE. You may need to set the ./src folder as "sources root" and add Scala framework support to the project by right clicking on the toplevel project folder, click "Add Framework Support" and select Scala. When chosing the library, you can download the Scala sdk in this step. You will want to restart the IDE after accomplishing all of this.
 
 ## Programming Model
-
+The Programming Model project contains various packages that demonstrate/define different aspects about Scala. The examples provide a sufficient education to get started with the language. Note that Scala runs on the JVM, so integration with Java is very simple. All of the examples are encapsulated around Scala objects that extend the App class, making the object effectively like a main method. To run an example object, you can right click on the name of the object and select the "run" option. The examples are well-commented and all output are put in comments as well.
 
 ## Blackjack
 
