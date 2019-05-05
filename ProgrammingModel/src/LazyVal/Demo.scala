@@ -22,11 +22,11 @@ object Demo extends App {
     }
   }
 
-  val x = new strict //only strict is printed
-  val y = new LazyEval
+  val x = new strict //output: strict 9
+  val y = new LazyEval //nothing is printed
 
   println(x.e)
-  println(y.l)
+  println(y.l) //
 }
 
 /**

@@ -23,5 +23,17 @@ object Launcher{
 
     lst.filter((x:Int) => x%2==0) foreach println //uses lambda
 
+
+    /* Output
+      2
+      4
+
+      2
+      4
+
+      2
+      4
+      */
+
   }
 }

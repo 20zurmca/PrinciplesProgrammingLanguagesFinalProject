@@ -8,4 +8,5 @@ object Upper2 extends App {
   def upper(strings: String*) = strings.map(_.toUpperCase())
   println(this.upper("A", "First", "Scala", "Program")) //this refers to the object
 
+  // Output: ArrayBuffer(A, FIRST, SCALA, PROGRAM)
 }

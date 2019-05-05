@@ -25,6 +25,7 @@ object Demo extends App{
   println
   actor ! "Hi There." //feeding messages to the actor with !
   actor ! 42          //! happens on a separate thread
+  actor.foo //this is not callable
 }
 */
 

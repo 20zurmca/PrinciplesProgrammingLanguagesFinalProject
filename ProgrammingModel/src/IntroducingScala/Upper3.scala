@@ -7,5 +7,6 @@ object Upper3 {
   def main(args: Array[String]): Unit = {
     args.map(_.toUpperCase()).foreach(printf("%s ", _)) //%s matches the string
     println("")
+    //this maps all the args to uppercase
   }
 }

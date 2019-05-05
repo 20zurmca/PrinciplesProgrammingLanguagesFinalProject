@@ -16,7 +16,7 @@ object PatternMatching1 extends App {
       case true => println("head")
       case false => println("tails")
       case _ => println("something other than head or tails (yikes!)")
-    }
+    } //prints heads then tails
   }
 }
 
@@ -28,7 +28,7 @@ object PatternMatching2 extends App{
 
   randomInt match{
     case 7 => println("lucky seven!")
-    case otherNumber => println("boo, got boring" + otherNumber)
+    case otherNumber => println("boo, got boring " + otherNumber)
   }
 }
 
@@ -44,6 +44,13 @@ object PatternMatching3 extends App{
       case f: Double => println("got a Double: " + f)
       case other => println("got something else: " + other) }
     }
+
+  /* Output:
+      got an Integer: 23
+      got a String: Hello
+      got a Double: 8.5
+      got something else: q
+   */
   }
 
 /**
@@ -59,14 +66,20 @@ object PatternMatching4 extends App{
       case List(_*) => println("Any other list with 0 or more elements")
     }
   }
+
+  /* Output:
+  Four elements, with the 2nd being 3
+  Any other list with 0 or more elements
+  Any other list with 0 or more elements
+   */
 }
 
 /**
   * ProcessList exhibits using case statements to process a list
   */
 object ProcessList extends App{
-  val willWork = List(1, 3, 23, 90)
-  val willNotWork = List(4, 18, 52)
+  val a = List(1, 3, 23, 90)
+  val b = List(4, 18, 52)
   val empty = List()
 
   def processList(l:List[Any]): Unit =
@@ -77,10 +90,16 @@ object ProcessList extends App{
       case Nil => println("Empty list")
     }
 
-  for (l <- List(willWork, willNotWork, empty)){
+  for (l <- List(a, b, empty)){
     print("List: ")
     processList(l)
   }
+
+  /*Output
+  List: 1 3 23 90 Empty list
+  List: 4 18 52 Empty list
+  List: Empty list
+   */
 }
 
 /**
@@ -93,12 +112,17 @@ object TupleMatch extends App {
   for (tup <- List(tupA, tupB)) {
     tup match {
         //using a guard in next case here
-      case (thingOne:String, thingTwo, thingThree) => if("Good" == thingOne)
+      case (thingOne:String, thingTwo:String, thingThree:String) => if("Good" == thingOne)
         println("A three-tuple starting with 'Good'. ")
       case (thingOne, thingTwo) => println("This has two things: " + thingOne + " and "
         + thingTwo)
     }
   }
+
+  /* Output
+  A three-tuple starting with 'Good'.
+  This has two things: Guten and Tag!
+   */
 }
 
 /**
@@ -120,6 +144,12 @@ object ClassMatch extends App{
         println("Who are you, " + age + " year-old person named " + name + "?")
     }
   }
+
+  /* Output
+  Hi, Alice!
+  Hi, Bob!
+  Who are you, 32 year-old person named Charlie?
+   */
 }
 
 /**
@@ -131,7 +161,7 @@ object ClassMatchNested extends App{
   case object Manager extends Role
   case object Developer extends Role
 
-  case class Person(name: String, age: Int, role: Role)
+  case class Person(name: String, age: Int, role: Role) //creating a class to match on
 
   val alice = Person("Alice", 25, Developer)
   val bob = Person("Bob", 32, Manager)
@@ -153,6 +183,14 @@ object ClassMatchNested extends App{
     }
   }
  }
+
+  /*Output for both:
+  Person(Alice,25,Developer) is underpaid.
+
+  Person(Bob,32,Manager) is overpaid.
+
+  Person(Charlie,32,Developer) is underpaid.
+   */
 }
 
 /**
@@ -163,7 +201,7 @@ object REMatch extends App{
   val MagazineExtractorRE = """Magazine: title=([^,]+),\s+issue=(.+)""".r
 
   """
-    Notice that each of our regexes defines two capture groups, connoted by parentheses.
+    Notice that each of our regexes defines two capture groups, denoted by parentheses.
     Each group captures the value of a single field in the record, such as a book’s title or
     author. Regexes in Scala translate those capture groups to extractors. Every match sets
     a field to the captured result; every miss is set to null.
@@ -190,4 +228,12 @@ object REMatch extends App{
       case entry => println("Unrecognized entry: " + entry)
     }
   }
+
+  /*Output
+  Book "Programming Scala", written by Dean Wampler, Alex Payne
+  Magazine "The New Yorker", issue January 2009
+  Book "War and Peace", written by Leo Tolstoy
+  Magazine "The Atlantic", issue February 2009
+  Unrecognized entry: BadData: text=Who put this here??
+   */
 }

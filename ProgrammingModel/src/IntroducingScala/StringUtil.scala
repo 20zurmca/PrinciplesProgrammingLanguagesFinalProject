@@ -13,4 +13,9 @@ object StringUtil extends App {
 
   println(this.joiner(List("Programming", "Scala")))
   println(this.joiner(List("Programming", "Scala"), separator = "-"))
+
+  /* Output
+  Programming Scala
+  Programming-Scala
+   */
 }

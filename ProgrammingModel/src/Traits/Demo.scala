@@ -25,4 +25,8 @@ object Demo extends App{
   val r = new Rectangle(5, 5)
   println(r.information)
 
+  /* Output
+      Area: 25.0 Color: Blue
+   */
+
 }

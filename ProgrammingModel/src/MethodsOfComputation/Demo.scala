@@ -11,20 +11,20 @@ object Demo {
     var c = 25
     var d = 25
 
-    println("a + b = " + (a + b) )
-    println("a - b = " + (a - b) )
-    println("a * b = " + (a * b) )
-    println("b / a = " + (b / a) )
-    println("b % a = " + (b % a) )
-    println("c % a = " + (c % a) )
+    println("a + b = " + (a + b) ) //30
+    println("a - b = " + (a - b) ) //-10
+    println("a * b = " + (a * b) ) //200
+    println("b / a = " + (b / a) ) //2
+    println("b % a = " + (b % a) ) //0
+    println("c % a = " + (c % a) ) //5
 
     //everything is an object
-    println("a.+(b) = " + a.+(b))
-    println("a.-(b) = " + a.-(b))
-    println("a.*(b) = " + a.*(b))
-    println("b./(a) = " + b./(a))
-    println("b.%(a) = " + b.%(a))
-    println("c.%(a) = " + c.% (a))
+    println("a.+(b) = " + a.+(b)) //30
+    println("a.-(b) = " + a.-(b)) //-10
+    println("a.*(b) = " + a.*(b)) //200
+    println("b./(a) = " + b./(a)) //2
+    println("b.%(a) = " + b.%(a)) //0
+    println("c.%(a) = " + c.% (a)) //5
   }
 
 }

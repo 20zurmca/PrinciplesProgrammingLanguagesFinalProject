@@ -18,4 +18,15 @@ object ScalaTypes extends App {
     println(v + " " + v.getClass)
   }
 
+  /* Output
+  true class java.lang.Boolean
+  false class java.lang.Boolean
+  2 class java.lang.Integer
+  a class java.lang.Character
+  23 class java.lang.Long
+  23.23 class java.lang.Double
+  Hello class java.lang.String
+  () class scala.runtime.BoxedUnit
+   */
+
 }

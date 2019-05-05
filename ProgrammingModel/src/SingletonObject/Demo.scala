@@ -19,8 +19,8 @@ class Test{
   import SingletonObject.Logger.info //importing the info method from singleton object
 
   val project1 = new Project("TPS Reports", 1)
-  val project2 = new Project("WEbsite redesign", 5)
-  info("created projects")
+  val project2 = new Project("Website redesign", 5)
+  info("created projects") //prints info statement
 }
 
 import scala.math._
@@ -40,11 +40,11 @@ object Circle{
   * @param radius the radius of the circle
   */
 case class Circle(radius: Double){
-  import Circle._
-  def area: Double = calculateArea(radius)
+  import Circle._ //importing companion object
+  def area: Double = calculateArea(radius) //can use the private method
 }
 
 object Launch extends App{
   val circle1 = new Circle(5.0)
-  println(circle1.area)
+  println("%.2f".format(circle1.area)) // 78.54
 }

@@ -10,13 +10,13 @@ object Demo extends App{
 
   //example 1 currying
   def sum(a: Int)(b: Int)(c: Int) = a + b + c
-  println(sum(1)(2)(3))
+  println(sum(1)(2)(3)) //6
 
   //example 2 currying multiple length parameter length
   def doFoo(firstName: String, lastName: String)(age: Int): String =
     firstName + " " + lastName + ": " + age
 
-  println(doFoo("Cameron", "Zurmuhl")(20))
+  println(doFoo("Cameron", "Zurmuhl")(20)) //Cameron Zurmuhl: 20
 
 
   //example 3: defining your own control structure
@@ -33,7 +33,7 @@ object Demo extends App{
   whilst(i < 5){
     println(i)
     i +=1
-  }
+  } //prints 1 to 4, inclusive
 
 
   //example 4 using implicit values
@@ -43,5 +43,5 @@ object Demo extends App{
   //defining an implicit boolean value
   implicit val boo = true
 
-  printIntIfTrue(33) //since there is an implicit value in scope, boo is used
+  printIntIfTrue(33) //since there is an implicit value in scope, boo is used. 33 is printed
 }
