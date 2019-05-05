@@ -8,11 +8,11 @@ package MultipleParamList
   */
 object Demo extends App{
 
-  //example 1
+  //example 1 currying
   def sum(a: Int)(b: Int)(c: Int) = a + b + c
   println(sum(1)(2)(3))
 
-  //example 2
+  //example 2 currying multiple length parameter length
   def doFoo(firstName: String, lastName: String)(age: Int): String =
     firstName + " " + lastName + ": " + age
 
@@ -21,7 +21,7 @@ object Demo extends App{
 
   //example 3: defining your own control structure
 
-  def whilst(testCondition: => Boolean)(codeBlock: => Unit): Unit ={
+  def whilst(testCondition: => Boolean)(codeBlock: => Unit): Unit ={ //: => is a by name parameter so it will only execute when evaluated in the function
     while(testCondition){
       codeBlock
     }
