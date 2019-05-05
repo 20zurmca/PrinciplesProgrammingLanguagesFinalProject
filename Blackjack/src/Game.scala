@@ -28,6 +28,7 @@ class Game (var num_deck: Int) {
 
   def player_stand(): Unit = {
     player.stand()
+    
   }
 
   def player_split(): Unit = {
@@ -60,13 +61,14 @@ class Game (var num_deck: Int) {
     }
   }
 
-  def score_game(): Unit = {
+  def score_game(): Boolean = {
     var dealer_wins = false
     if(player.hand_value() > 21){
       dealer_wins = true
     }else if (player.hand_value() > dealer.hand_value()){
       dealer_wins = true
     }
+    return dealer_wins
   }
 
 }
