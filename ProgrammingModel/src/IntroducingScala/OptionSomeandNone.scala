@@ -23,4 +23,10 @@ object OptionSomeandNone extends App{
   println("show(capitals.get( \"Japan\")) : " + capitals.get( "Japan")) //returns Option[String]
   println("show(capitals.get( \"India\")) : " + capitals.get( "India")) //returns Option[String]
 
+
+  /* Output
+  show(capitals.get( "Japan")) : Some(Tokyo)
+  show(capitals.get( "India")) : None
+   */
+
 }

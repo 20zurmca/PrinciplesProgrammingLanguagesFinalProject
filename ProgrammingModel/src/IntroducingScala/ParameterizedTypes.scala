@@ -14,7 +14,7 @@ class StringBulkReader(val source: String) extends BulkReader{
   def read : String = source
 }
 
-//could have used generics
+//could have used generics this way as well
 abstract class Reader[In]{
   val source: In
   def read: String

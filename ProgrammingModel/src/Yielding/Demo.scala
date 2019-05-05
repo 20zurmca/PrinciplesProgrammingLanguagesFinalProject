@@ -15,4 +15,18 @@ object Demo extends App {
 
   println(b)
 
+  /* Output
+  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+  10
+  Vector(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+   */
+
 }

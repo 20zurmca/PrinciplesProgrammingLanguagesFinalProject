@@ -31,6 +31,7 @@ class Game (var num_deck: Int) {
 
   def player_stand(): Unit = {
     player.stand()
+    
   }
 
   def player_split(): Unit = {
@@ -63,7 +64,7 @@ class Game (var num_deck: Int) {
     }
     return false
   }
-
+  
   def player_bust(): Boolean = {
     if (player.hand_value() > 21) {
       return true
