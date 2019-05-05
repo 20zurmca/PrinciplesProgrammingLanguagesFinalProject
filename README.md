@@ -1,10 +1,10 @@
 # Principles of Programming Languages Final Project
 The Final Project for CS 301 @ Lafayette College
 ## Authors
-  *Garrett Rademacher '20
-  *Joseph Teddick     '20
-  *Shira Wein         '19
-  *Cameron Zurmuhl    '20
+  * Garrett Rademacher '20
+  * Joseph Teddick     '20
+  * Shira Wein         '19
+  * Cameron Zurmuhl    '20
 
 ## Description
 This repository holds the final project for our CS301 class at Lafayette College: Principles of Programming Languages. The assignment is to
