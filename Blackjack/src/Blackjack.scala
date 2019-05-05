@@ -44,6 +44,7 @@ class GUI() //Constructor
   var possible_split1: JLabel = null
   var possible_split2: JLabel = null
   var all_cards: ArrayBuffer[JLabel] = ArrayBuffer.empty[JLabel]
+  var user_turn = false
 
   this.setTitle("Blackjack")
   this.setSize(763, 435)
@@ -239,6 +240,7 @@ class GUI() //Constructor
       split_button.setVisible(true)
       deal_button.setVisible(false)
       new_game.start_deal() //deal out game
+      user_turn = true
 
       var dealer_size = new_game.dealer.hand_size()
       var d_first = new_game.dealer.get_card(dealer_size-2)
@@ -290,6 +292,9 @@ class GUI() //Constructor
 
   hit_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
+      if (!user_turn){
+        return
+      }
       var player_size = new_game.player.hand_size()
 
       if (player_size < 6) {
@@ -314,6 +319,8 @@ class GUI() //Constructor
   stand_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       println("Stand button")
+      user_turn = false
+
     }
   })
 

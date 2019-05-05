@@ -2,6 +2,7 @@ package Blackjack.src
 
 class Game (var num_deck: Int) {
   var game_deck = new Deck(num_deck)
+  game_deck.shuffle_deck()
   var player = new Player(game_deck)
   var dealer = new Dealer(game_deck)
 
@@ -51,6 +52,21 @@ class Game (var num_deck: Int) {
 
   def dealer_stand(): Unit = {
     dealer.stand()
+  }
+
+  def dealer_turn(): Unit = {
+    while(dealer.hand_value() < 17){
+      dealer.hit()
+    }
+  }
+
+  def score_game(): Unit = {
+    var dealer_wins = false
+    if(player.hand_value() > 21){
+      dealer_wins = true
+    }else if (player.hand_value() > dealer.hand_value()){
+      dealer_wins = true
+    }
   }
 
 }
