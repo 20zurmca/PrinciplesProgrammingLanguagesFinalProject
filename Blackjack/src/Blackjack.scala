@@ -34,17 +34,23 @@ class GUI() //Constructor
   extends JFrame {
 
   var new_game = new Game(1)
+  var all_cards: ArrayBuffer[JLabel] = ArrayBuffer.empty[JLabel]
+  var player_wins = 0
+  var dealer_wins = 0
+  val width_card = 130
+  val split_width = 85
 
   var p_loc = 50
   var d_loc = 50
   var split_loc1 = 50
   var split_loc2 = 50
-  val width_card = 130
-  val split_width = 85
   var possible_split1: JLabel = null
   var possible_split2: JLabel = null
-  var all_cards: ArrayBuffer[JLabel] = ArrayBuffer.empty[JLabel]
-  var user_turn = false
+  var blank_dealer_card: JLabel = null
+  var first_dealer_card: JLabel = null
+  var top_stand = false
+  var bottom_stand = false
+  var split_bust = false
 
   this.setTitle("Blackjack")
   this.setSize(763, 435)
@@ -84,6 +90,22 @@ class GUI() //Constructor
   dealerw_text.setEnabled(true)
   dealerw_text.setVisible(false)
 
+  //display dealer counter
+  var dealer_counter = new JLabel("Hand Total: ")
+  dealer_counter.setBounds(500, -10, 300, 100)
+  dealer_counter.setFont(new Font("Segoe UI Black", 0, 30))
+  dealer_counter.setForeground((Color.WHITE))
+  dealer_counter.setEnabled(true)
+  dealer_counter.setVisible(false)
+
+  //display tie/draw text
+  var draw_text = new JLabel("Draw!")
+  draw_text.setBounds(250, -10, 200, 100)
+  draw_text.setFont(new Font("Segoe UI Black", 0, 40))
+  draw_text.setForeground((Color.GREEN))
+  draw_text.setEnabled(true)
+  draw_text.setVisible(false)
+
   //display player text
   var player_text = new JLabel("Player")
   player_text.setBounds(30, 317, 200, 100)
@@ -99,6 +121,22 @@ class GUI() //Constructor
   playerw_text.setForeground((Color.GREEN))
   playerw_text.setEnabled(true)
   playerw_text.setVisible(false)
+
+  //display player 1 counter
+  var player_counter = new JLabel("Hand Total: 0")
+  player_counter.setBounds(500, 317, 300, 100)
+  player_counter.setFont(new Font("Segoe UI Black", 0, 30))
+  player_counter.setForeground((Color.WHITE))
+  player_counter.setEnabled(true)
+  player_counter.setVisible(false)
+
+  //display player 1 counter
+  var player1_counter = new JLabel("Lower Hand Total: ")
+  player1_counter.setBounds(800, 317, 300, 100)
+  player1_counter.setFont(new Font("Segoe UI Black", 0, 28))
+  player1_counter.setForeground((Color.WHITE))
+  player1_counter.setEnabled(true)
+  player1_counter.setVisible(false)
 
   //display dealer score
   var dealer_score = new JLabel("Dealer Wins: 0")
@@ -228,7 +266,7 @@ class GUI() //Constructor
   new_game_button.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.WHITE))
   new_game_button.setForeground(new Color(255, 255, 255))
   new_game_button.setEnabled(true)
-  new_game_button.setFont(new Font("Segoe UI Black", 0, 24))
+  new_game_button.setFont(new Font("Segoe UI Black", 0, 16))
   new_game_button.setText("New Game")
   new_game_button.setVisible(false)
   new_game_button.setEnabled(true)
@@ -239,8 +277,8 @@ class GUI() //Constructor
       stand_button.setVisible(true)
       split_button.setVisible(true)
       deal_button.setVisible(false)
+      player_counter.setVisible(true)
       new_game.start_deal() //deal out game
-      user_turn = true
 
       var dealer_size = new_game.dealer.hand_size()
       var d_first = new_game.dealer.get_card(dealer_size-2)
@@ -253,13 +291,13 @@ class GUI() //Constructor
       //add in dealer cards
 
       //blank card
-      var temp_1 = get_new_card(d_loc, 105, null, false)
-      contentPane.add(temp_1)
+      blank_dealer_card = get_new_card(d_loc, 105, null, false)
+      contentPane.add(blank_dealer_card)
       d_loc+=width_card //increment location of next card
 
-      var temp_2 = get_new_card(50, 105, d_first, true)
-      contentPane.add(temp_2)
-      temp_2.setVisible(false)
+      first_dealer_card = get_new_card(50, 105, d_first, true)
+      contentPane.add(first_dealer_card)
+      first_dealer_card.setVisible(false)
 
       var temp_3 = get_new_card(d_loc, 105, d_second, true)
       contentPane.add(temp_3)
@@ -276,11 +314,29 @@ class GUI() //Constructor
       p_loc+=width_card //increment location of next card
 
       //add all cards to array
-      all_cards+=temp_1
-      all_cards+=temp_2
+      all_cards+=blank_dealer_card
+      all_cards+=first_dealer_card
       all_cards+=temp_3
       all_cards+=possible_split1
       all_cards+=possible_split2
+
+      update_counters()
+
+      //if there is a draw
+      if (new_game.initial_draw()) {
+        end_game(false, false, true)
+        return
+      }
+
+      if (new_game.player_blackjack()) {
+        end_game(true, false, false)
+        return
+      }
+
+      if (new_game.dealer_blackjack()) {
+        end_game(false, true, false)
+        return
+      }
 
       GUI.this.repaint()
 
@@ -292,9 +348,8 @@ class GUI() //Constructor
 
   hit_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
-      if (!user_turn){
-        return
-      }
+      split_button.setVisible(false)
+
       var player_size = new_game.player.hand_size()
 
       if (player_size < 6) {
@@ -308,6 +363,18 @@ class GUI() //Constructor
 
         all_cards+=temp_1
 
+        update_counters()
+
+        if (new_game.player_bust()) {
+          end_game(false, true, false)
+          return
+        }
+
+        if (new_game.player_blackjack()) {
+          end_game(true, false, false)
+          return
+        }
+
         GUI.this.repaint()
       }
 
@@ -318,9 +385,15 @@ class GUI() //Constructor
 
   stand_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
-      println("Stand button")
-      user_turn = false
+      hit_button.setVisible(false)
+      split_button.setVisible(false)
+      stand_button.setVisible(false)
 
+      dealer_turn()
+
+      GUI.this.repaint()
+
+      println("Stand button")
     }
   })
 
@@ -356,6 +429,8 @@ class GUI() //Constructor
       all_cards+=temp_1
       all_cards+=temp_2
 
+      update_counters()
+
       GUI.this.repaint()
       //possible_split.setVisible(false)
       println("Split button")
@@ -378,6 +453,25 @@ class GUI() //Constructor
         split_loc1 += split_width //increment location of next card
 
         all_cards+=temp_1
+
+        update_counters()
+
+        if (new_game.player_bust()) {
+          if (split_bust) {
+            end_game(false, true, false)
+            return
+          } else {
+            hittop_button.setVisible(false)
+            stand_top_button.setVisible(false)
+            split_bust = true
+            top_stand = true
+          }
+        }
+
+        if (new_game.player_blackjack()) {
+          end_game(true, false, false)
+          return
+        }
 
         GUI.this.repaint()
       }
@@ -403,6 +497,25 @@ class GUI() //Constructor
 
         all_cards+=temp_1
 
+        update_counters()
+
+        if (new_game.player_split_bust()) {
+          if (split_bust) {
+            end_game(false, true, false)
+            return
+          } else {
+            hitlower_button.setVisible(false)
+            stand_lower_button.setVisible(false)
+            split_bust = true
+            bottom_stand = true
+          }
+        }
+
+        if (new_game.player_blackjack()) {
+          end_game(true, false, false)
+          return
+        }
+
         GUI.this.repaint()
       }
 
@@ -414,12 +527,30 @@ class GUI() //Constructor
 
   stand_top_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
+      hittop_button.setVisible(false)
+      stand_top_button.setVisible(false)
+      top_stand = true;
+
+      if (bottom_stand) {
+        dealer_turn()
+      }
+
+      GUI.this.repaint()
       println("Stand Upper button")
     }
   })
 
   stand_lower_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
+      hitlower_button.setVisible(false)
+      stand_lower_button.setVisible(false)
+      bottom_stand = true;
+
+      if (top_stand) {
+        dealer_turn()
+      }
+
+      GUI.this.repaint()
       println("Stand Lower button")
     }
   })
@@ -435,9 +566,23 @@ class GUI() //Constructor
       split_loc2 = 50
       possible_split1 = null
       possible_split2 = null
+      blank_dealer_card = null
+      first_dealer_card = null
+      top_stand = false
+      bottom_stand = false
+      split_bust = false
+      new_game.dealer_result = false
+      new_game.player_result = false
+      new_game.tie_result = false
 
       dealerw_text.setVisible(false)
+      dealer_counter.setVisible(false)
+      draw_text.setVisible(false)
       playerw_text.setVisible(false)
+      player_counter.setBounds(500, 317, 300, 100)
+      player_counter.setFont(new Font("Segoe UI Black", 0, 30))
+      player_counter.setText("Hand Total: 0")
+      player1_counter.setVisible(false)
       new_game_button.setVisible(false)
       deal_button.setVisible(true)
 
@@ -450,8 +595,12 @@ class GUI() //Constructor
   contentPane.add(area_split)
   contentPane.add(dealer_text)
   contentPane.add(dealerw_text)
+  contentPane.add(dealer_counter)
+  contentPane.add(draw_text)
   contentPane.add(player_text)
   contentPane.add(playerw_text)
+  contentPane.add(player_counter)
+  contentPane.add(player1_counter)
   contentPane.add(dealer_score)
   contentPane.add(player_score)
   contentPane.add(deal_button)
@@ -559,6 +708,80 @@ class GUI() //Constructor
 
     all_cards.clear()
     this.repaint()
+  }
+
+  def dealer_turn(): Unit = {
+    while (new_game.dealer.hand_value() < 17 && new_game.dealer.hand_size() <= 6) {
+      new_game.dealer_hit()
+
+      var d_card = new_game.dealer.get_card(new_game.dealer.hand_size()-1)
+
+      var temp_1 = get_new_card(d_loc, 105, d_card, true)
+      contentPane.add(temp_1)
+      d_loc += width_card //increment location of next card
+
+      all_cards+=temp_1
+
+      if (new_game.dealer_bust()) {
+        end_game(true, false, false)
+        return
+      }
+
+      if (new_game.dealer_blackjack()) {
+        end_game(false, true, false)
+        return
+      }
+
+      GUI.this.repaint()
+    }
+    determine_winner()
+  }
+
+  def end_game(player: Boolean, dealer: Boolean, tie: Boolean): Unit = {
+    hit_button.setVisible(false)
+    stand_button.setVisible(false)
+    split_button.setVisible(false)
+    hittop_button.setVisible(false)
+    hitlower_button.setVisible(false)
+    stand_top_button.setVisible(false)
+    stand_lower_button.setVisible(false)
+    new_game_button.setVisible(true)
+    blank_dealer_card.setVisible(false)
+    first_dealer_card.setVisible(true)
+    dealer_counter.setText("Hand Total: " + new_game.dealer.hand_value())
+    dealer_counter.setVisible(true)
+
+    if (player) {
+      playerw_text.setVisible(true)
+      player_wins+=1
+      player_score.setText("Player Wins: " + player_wins)
+    } else if (dealer) {
+      dealerw_text.setVisible(true)
+      dealer_wins+=1
+      dealer_score.setText("Dealer Wins: " + dealer_wins)
+    } else if (tie) {
+      draw_text.setVisible(true)
+    }
+
+    this.repaint()
+  }
+
+  def determine_winner(): Unit = {
+    new_game.determine_winner()
+    end_game(new_game.player_result, new_game.dealer_result, new_game.tie_result)
+  }
+
+  def update_counters(): Unit = {
+
+    if (new_game.player.is_split) {
+      player_counter.setBounds(450, 317, 300, 100)
+      player_counter.setFont(new Font("Segoe UI Black", 0, 28))
+      player1_counter.setVisible(true)
+      player_counter.setText("Upper Hand Total: " + new_game.player.hand_value())
+      player1_counter.setText("Lower Hand Total: " + new_game.player.split_hand_value())
+    } else {
+      player_counter.setText("Hand Total: " + new_game.player.hand_value())
+    }
   }
 
 }
