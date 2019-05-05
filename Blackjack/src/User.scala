@@ -28,4 +28,8 @@ trait User {
     active_turn = false
   }
 
+  def hand_value(): Int = {
+    return user_hand.value()
+  }
+
 }

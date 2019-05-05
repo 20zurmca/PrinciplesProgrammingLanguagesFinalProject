@@ -19,6 +19,6 @@ object Bye extends App {
 
   val dealer = new Dealer(deck1)
   dealer.hit()
-  dealer.print_hand()*/
+  dealer.print_hand()
 
-//}
+}
