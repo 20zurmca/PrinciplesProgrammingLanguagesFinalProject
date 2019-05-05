@@ -16,4 +16,4 @@ Ace-K, Ace-J, Ace-Q, Ace-10 being automatc winning blackjack hands. Further deta
 
 ## Installations
 The IDE we used for this project is Intellij by JetBrains, and we encourage you to download it to run the examples in the IDE.
-You can download Intellij here: <a> @href = https://www.jetbrains.com/idea/download </a>
+You can download Intellij here: https://www.jetbrains.com/idea/download 
