@@ -74,6 +74,22 @@ class GUI() //Constructor
   area_split.setEnabled(true)
   area_split.setVisible(true)
 
+  //display dealer blackjack text
+  var dealer_blackjack_text = new JLabel("Blackjack!")
+  dealer_blackjack_text.setBounds(400, -20, 800, 400)
+  dealer_blackjack_text.setFont(new Font("Segoe UI Black", 0, 120))
+  dealer_blackjack_text.setForeground((Color.RED))
+  dealer_blackjack_text.setEnabled(true)
+  dealer_blackjack_text.setVisible(false)
+
+  //display dealer blackjack text
+  var player_blackjack_text = new JLabel("Blackjack!")
+  player_blackjack_text.setBounds(400, 300, 800, 400)
+  player_blackjack_text.setFont(new Font("Segoe UI Black", 0, 120))
+  player_blackjack_text.setForeground((Color.RED))
+  player_blackjack_text.setEnabled(true)
+  player_blackjack_text.setVisible(false)
+
   //display dealer text
   var dealer_text = new JLabel("Dealer")
   dealer_text.setBounds(30, -10, 200, 100)
@@ -275,7 +291,6 @@ class GUI() //Constructor
     override def actionPerformed(e: ActionEvent): Unit = {
       hit_button.setVisible(true)
       stand_button.setVisible(true)
-      split_button.setVisible(true)
       deal_button.setVisible(false)
       player_counter.setVisible(true)
       new_game.start_deal() //deal out game
@@ -320,20 +335,28 @@ class GUI() //Constructor
       all_cards+=possible_split1
       all_cards+=possible_split2
 
+      if(new_game.player.can_split()) {
+        split_button.setVisible(true)
+      }
+
       update_counters()
 
       //if there is a draw
       if (new_game.initial_draw()) {
+        dealer_blackjack_text.setVisible(true)
+        player_blackjack_text.setVisible(true)
         end_game(false, false, true)
         return
       }
 
       if (new_game.player_blackjack()) {
+        player_blackjack_text.setVisible(true)
         end_game(true, false, false)
         return
       }
 
       if (new_game.dealer_blackjack()) {
+        dealer_blackjack_text.setVisible(true)
         end_game(false, true, false)
         return
       }
@@ -529,7 +552,8 @@ class GUI() //Constructor
     override def mouseClicked(evt: MouseEvent): Unit = {
       hittop_button.setVisible(false)
       stand_top_button.setVisible(false)
-      top_stand = true;
+      top_stand = true
+      split_bust = true
 
       if (bottom_stand) {
         dealer_turn()
@@ -544,7 +568,8 @@ class GUI() //Constructor
     override def mouseClicked(evt: MouseEvent): Unit = {
       hitlower_button.setVisible(false)
       stand_lower_button.setVisible(false)
-      bottom_stand = true;
+      bottom_stand = true
+      split_bust = true
 
       if (top_stand) {
         dealer_turn()
@@ -575,6 +600,9 @@ class GUI() //Constructor
       new_game.player_result = false
       new_game.tie_result = false
 
+      split_button.setVisible(false)
+      dealer_blackjack_text.setVisible(false)
+      player_blackjack_text.setVisible(false)
       dealerw_text.setVisible(false)
       dealer_counter.setVisible(false)
       draw_text.setVisible(false)
@@ -593,6 +621,8 @@ class GUI() //Constructor
   //add in everything to canvas
   contentPane.add(button_split)
   contentPane.add(area_split)
+  contentPane.add(dealer_blackjack_text)
+  contentPane.add(player_blackjack_text)
   contentPane.add(dealer_text)
   contentPane.add(dealerw_text)
   contentPane.add(dealer_counter)

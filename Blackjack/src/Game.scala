@@ -64,7 +64,7 @@ class Game (var num_deck: Int) {
     }
     return false
   }
-  
+
   def player_bust(): Boolean = {
     if (player.hand_value() > 21) {
       return true
@@ -112,16 +112,18 @@ class Game (var num_deck: Int) {
 
   def determine_winner(): Unit = {
     var player_hand_1 = player.hand_value()
-    var player_hand_2 = 0
+    var player_hand_2 = player.split_hand_value()
     var dealer_hand = dealer.hand_value()
     var optimal_player = 0
 
+    if (player_hand_1 > 21) player_hand_1 = 0
+    if (player_hand_2 > 21) player_hand_2 = 0
+    if (dealer_hand > 21) dealer_hand = 0
+
     if (player.is_split) {
-      player_hand_2 = player.split_hand_value()
-      if (player_hand_1 < 22 && player_hand_1 > player_hand_2) {
+      if (player_hand_1 > player_hand_2) {
         optimal_player = player_hand_1
-      } else if (player_hand_2 < 22 && player_hand_2 > player_hand_1) {
-        println("test test")
+      } else if (player_hand_2 > player_hand_1) {
         optimal_player = player_hand_2
       } else {
         optimal_player = player_hand_1
@@ -130,9 +132,9 @@ class Game (var num_deck: Int) {
       optimal_player = player_hand_1
     }
 
-    if (optimal_player < 22 && optimal_player > dealer_hand) {
+    if (optimal_player > dealer_hand) {
       player_result = true
-    } else if (dealer_hand < 22 && dealer_hand > optimal_player) {
+    } else if (dealer_hand > optimal_player) {
       dealer_result = true
     } else if (dealer_hand == optimal_player) {
       tie_result = true

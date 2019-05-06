@@ -25,6 +25,17 @@ class Player (var deck: Deck) extends User {
 
   }
 
+  def can_split(): Boolean = {
+    //get first 2 cards
+    val temp_card = user_hand.hand(0)
+    val temp_card2 = user_hand.hand(1)
+
+    if (temp_card.rank == temp_card2.rank) {
+      return true
+    }
+    return false
+  }
+
   override def stand(): Unit = {
     //Literally do nothing
   }
