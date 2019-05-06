@@ -62,6 +62,7 @@ class GUI() //Constructor
   var top_stand = false
   var bottom_stand = false
   var split_bust = false
+  var stand_case = false
 
   this.setTitle("Blackjack")
   this.setSize(763, 435)
@@ -526,9 +527,15 @@ class GUI() //Constructor
         update_counters()
 
         if (new_game.player_bust()) {
-          if (split_bust) {
+          if (split_bust && !stand_case) {
             end_game(false, true, false)
             return
+          } else if (split_bust && stand_case) {
+            hittop_button.setVisible(false)
+            stand_top_button.setVisible(false)
+            hitlower_button.setVisible(false)
+            stand_lower_button.setVisible(false)
+            dealer_turn()
           } else {
             hittop_button.setVisible(false)
             stand_top_button.setVisible(false)
@@ -575,9 +582,15 @@ class GUI() //Constructor
         update_counters()
 
         if (new_game.player_split_bust()) {
-          if (split_bust) {
+          if (split_bust && !stand_case) {
             end_game(false, true, false)
             return
+          } else if (split_bust && stand_case) {
+            hittop_button.setVisible(false)
+            stand_top_button.setVisible(false)
+            hitlower_button.setVisible(false)
+            stand_lower_button.setVisible(false)
+            dealer_turn()
           } else {
             hitlower_button.setVisible(false)
             stand_lower_button.setVisible(false)
@@ -602,6 +615,7 @@ class GUI() //Constructor
       stand_top_button.setVisible(false)
       top_stand = true
       split_bust = true
+      stand_case = true
 
       if (bottom_stand) {
         dealer_turn()
@@ -617,6 +631,7 @@ class GUI() //Constructor
       stand_lower_button.setVisible(false)
       bottom_stand = true
       split_bust = true
+      stand_case = true
 
       if (top_stand) {
         dealer_turn()
@@ -642,6 +657,7 @@ class GUI() //Constructor
       top_stand = false
       bottom_stand = false
       split_bust = false
+      stand_case = false
       new_game.dealer_result = false
       new_game.player_result = false
       new_game.tie_result = false
