@@ -384,10 +384,6 @@ class GUI() //Constructor
       }
 
       GUI.this.repaint()
-
-      println("Deal button")
-      new_game.player.print_hand()
-      new_game.dealer.print_hand()
     }
   })
 
@@ -431,9 +427,6 @@ class GUI() //Constructor
 
         GUI.this.repaint()
       }
-
-      println("Hit button")
-      new_game.player.print_hand()
     }
   })
 
@@ -446,8 +439,6 @@ class GUI() //Constructor
       dealer_turn()
 
       GUI.this.repaint()
-
-      println("Stand button")
     }
   })
 
@@ -486,10 +477,6 @@ class GUI() //Constructor
       update_counters()
 
       GUI.this.repaint()
-      //possible_split.setVisible(false)
-      println("Split button")
-      new_game.player.print_hand()
-      new_game.player.print_split_hand()
     }
   })
 
@@ -538,10 +525,6 @@ class GUI() //Constructor
 
         GUI.this.repaint()
       }
-
-      println("Hit Upper button")
-      new_game.player.print_hand()
-      new_game.player.print_split_hand()
     }
   })
 
@@ -590,10 +573,6 @@ class GUI() //Constructor
 
         GUI.this.repaint()
       }
-
-      println("Hit Lower button")
-      new_game.player.print_hand()
-      new_game.player.print_split_hand()
     }
   })
 
@@ -609,7 +588,6 @@ class GUI() //Constructor
       }
 
       GUI.this.repaint()
-      println("Stand Upper button")
     }
   })
 
@@ -625,7 +603,6 @@ class GUI() //Constructor
       }
 
       GUI.this.repaint()
-      println("Stand Lower button")
     }
   })
 
@@ -662,8 +639,6 @@ class GUI() //Constructor
       player1_counter.setVisible(false)
       new_game_button.setVisible(false)
       deal_button.setVisible(true)
-
-      println("New game button")
     }
   })
 
