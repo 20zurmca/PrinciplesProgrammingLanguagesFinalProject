@@ -761,7 +761,7 @@ class GUI() //Constructor
   }
 
   def get_new_card_split(start_loc: Int, height_spot: Int, card: Card): JLabel = {
-    var file_path = "../Cards/"
+    var file_path = "./Cards/"
     var suit = card.suit
     var rank = card.rank
     var temp_suit = ""
