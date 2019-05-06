@@ -10,10 +10,13 @@ import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.event.MouseWheelEvent
 import java.awt.event.MouseWheelListener
+import java.io.File
 
+import javax.sound.sampled.{AudioSystem, Clip}
 import javax.swing.border.Border
 import javax.swing._
 import javax.swing.JButton
+
 import scala.collection.mutable.ArrayBuffer
 
 
@@ -24,7 +27,14 @@ object Blackjack {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
       override def run(): Unit = {
         new GUI
-
+        try
+        {
+          val clip = AudioSystem.getClip();
+          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/Memoir_of_Summer.wav")))
+          clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch {
+          case e => println(e)
+        }
       }
     })
   }
