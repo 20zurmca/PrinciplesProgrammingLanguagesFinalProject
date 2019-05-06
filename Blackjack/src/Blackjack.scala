@@ -18,6 +18,7 @@ import javax.swing._
 import javax.swing.JButton
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 
 
@@ -688,7 +689,15 @@ class GUI() //Constructor
 
       file_path = file_path + temp_rank + temp_suit + ".png"
     } else {
-      file_path = file_path + "red_back.png"
+      //get random back card color
+      val num_gen = new scala.util.Random
+      val num = num_gen.nextInt(6)
+      if (num == 0) file_path = file_path + "red_back.png"
+      else if(num == 1) file_path = file_path + "blue_back.png"
+      else if(num == 2) file_path = file_path + "gray_back.png"
+      else if(num == 3) file_path = file_path + "green_back.png"
+      else if(num == 4) file_path = file_path + "purple_back.png"
+      else if(num == 5) file_path = file_path + "yellow_back.png"
     }
 
     var card_image = new ImageIcon(file_path)
