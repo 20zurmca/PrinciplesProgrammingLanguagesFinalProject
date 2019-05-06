@@ -816,6 +816,15 @@ class GUI() //Constructor
 
       GUI.this.repaint()
     }
+    try
+    {
+      val clip = AudioSystem.getClip()
+      clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
+      clip.start()
+    } catch {
+      case e => println(e)
+    }
+
     determine_winner()
   }
 
