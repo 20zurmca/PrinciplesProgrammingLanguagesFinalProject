@@ -30,9 +30,9 @@ object Blackjack {
         new GUI
         try
         {
-          val clip = AudioSystem.getClip();
+          val clip = AudioSystem.getClip()
           clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/Memoir_of_Summer.wav")))
-          clip.loop(Clip.LOOP_CONTINUOUSLY);
+          clip.loop(Clip.LOOP_CONTINUOUSLY)
         } catch {
           case e => println(e)
         }
@@ -308,7 +308,7 @@ class GUI() //Constructor
       //deal sound effects
       try
       {
-        val clip = AudioSystem.getClip();
+        val clip = AudioSystem.getClip()
         clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/shuffle.wav")))
         clip.start()
       } catch {
@@ -420,6 +420,15 @@ class GUI() //Constructor
           return
         }
 
+        try
+        {
+          val clip = AudioSystem.getClip()
+          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
+          clip.start()
+        } catch {
+          case e => println(e)
+        }
+
         GUI.this.repaint()
       }
 
@@ -518,6 +527,15 @@ class GUI() //Constructor
           return
         }
 
+        try
+        {
+          val clip = AudioSystem.getClip()
+          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
+          clip.start()
+        } catch {
+          case e => println(e)
+        }
+
         GUI.this.repaint()
       }
 
@@ -559,6 +577,15 @@ class GUI() //Constructor
         if (new_game.player_blackjack()) {
           end_game(true, false, false)
           return
+        }
+
+        try
+        {
+          val clip = AudioSystem.getClip()
+          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
+          clip.start()
+        } catch {
+          case e => println(e)
         }
 
         GUI.this.repaint()
@@ -793,8 +820,6 @@ class GUI() //Constructor
       }
 
       GUI.this.repaint()
-      //right here cameron
-
     }
     determine_winner()
   }
