@@ -303,6 +303,17 @@ class GUI() //Constructor
       stand_button.setVisible(true)
       deal_button.setVisible(false)
       player_counter.setVisible(true)
+
+      //deal sound effects
+      try
+      {
+        val clip = AudioSystem.getClip();
+        clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/shuffle.wav")))
+        clip.start()
+      } catch {
+        case e:Exception => println(e)
+      }
+
       new_game.start_deal() //deal out game
 
       var dealer_size = new_game.dealer.hand_size()
@@ -773,6 +784,8 @@ class GUI() //Constructor
       }
 
       GUI.this.repaint()
+      //right here cameron
+
     }
     determine_winner()
   }
