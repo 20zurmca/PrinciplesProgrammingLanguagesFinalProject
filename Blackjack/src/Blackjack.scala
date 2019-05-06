@@ -372,12 +372,30 @@ class GUI() //Constructor
       }
 
       if (new_game.player_blackjack()) {
+        try
+        {
+          val clip = AudioSystem.getClip()
+          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/clapping.wav")))
+          clip.start()
+        } catch {
+          case e => println(e)
+        }
+
         player_blackjack_text.setVisible(true)
         end_game(true, false, false)
         return
       }
 
       if (new_game.dealer_blackjack()) {
+        try
+        {
+          val clip = AudioSystem.getClip()
+          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/awww.wav")))
+          clip.start()
+        } catch {
+          case e => println(e)
+        }
+
         dealer_blackjack_text.setVisible(true)
         end_game(false, true, false)
         return
@@ -390,8 +408,17 @@ class GUI() //Constructor
   hit_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       split_button.setVisible(false)
-
       var player_size = new_game.player.hand_size()
+      if (player_size == 5) hit_button.setVisible(false)
+
+      try
+      {
+        val clip = AudioSystem.getClip()
+        clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
+        clip.start()
+      } catch {
+        case e => println(e)
+      }
 
       if (player_size < 6) {
         new_game.player_hit()
@@ -414,15 +441,6 @@ class GUI() //Constructor
         if (new_game.player_blackjack()) {
           end_game(true, false, false)
           return
-        }
-
-        try
-        {
-          val clip = AudioSystem.getClip()
-          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
-          clip.start()
-        } catch {
-          case e => println(e)
         }
 
         GUI.this.repaint()
@@ -483,6 +501,16 @@ class GUI() //Constructor
   hittop_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       var player_size = new_game.player.hand_size()
+      if (player_size == 5) hittop_button.setVisible(false)
+
+      try
+      {
+        val clip = AudioSystem.getClip()
+        clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
+        clip.start()
+      } catch {
+        case e => println(e)
+      }
 
       if (player_size < 6) {
         new_game.player_hit()
@@ -514,15 +542,6 @@ class GUI() //Constructor
           return
         }
 
-        try
-        {
-          val clip = AudioSystem.getClip()
-          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
-          clip.start()
-        } catch {
-          case e => println(e)
-        }
-
         GUI.this.repaint()
       }
     }
@@ -531,6 +550,16 @@ class GUI() //Constructor
   hitlower_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       var player_split_size = new_game.player.split_hand_size()
+      if(player_split_size == 5) hitlower_button.setVisible(false)
+
+      try
+      {
+        val clip = AudioSystem.getClip()
+        clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
+        clip.start()
+      } catch {
+        case e => println(e)
+      }
 
       if (player_split_size < 6) {
         new_game.player_hit_split()
@@ -560,15 +589,6 @@ class GUI() //Constructor
         if (new_game.player_blackjack()) {
           end_game(true, false, false)
           return
-        }
-
-        try
-        {
-          val clip = AudioSystem.getClip()
-          clip.open(AudioSystem.getAudioInputStream(new File("../Blackjack/music/card_deal.wav")))
-          clip.start()
-        } catch {
-          case e => println(e)
         }
 
         GUI.this.repaint()
