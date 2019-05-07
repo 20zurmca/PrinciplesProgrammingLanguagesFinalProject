@@ -6,7 +6,7 @@ The Final Project for CS 301 @ Lafayette College
   * Shira Wein         '19
   * Cameron Zurmuhl    '20
 
-##Contents of Submission
+## Contents of Submission
 The submission .zip file should contain six items: the Scala Document, the Presentation Slides, a folder containing Examples of Source Code, A folder containing the Game Source Code, the Game Documentation, and this README file.
 
 ## Description
