@@ -1,24 +1,17 @@
 package Blackjack.src
 
-import javax.swing.UIManager.LookAndFeelInfo
 import java.awt._
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
-import java.awt.event.KeyAdapter
-import java.awt.event.KeyEvent
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
-import java.awt.event.MouseWheelEvent
-import java.awt.event.MouseWheelListener
 import java.io.File
 
 import javax.sound.sampled.{AudioSystem, Clip}
-import javax.swing.border.Border
 import javax.swing._
 import javax.swing.JButton
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 
 
 /*
