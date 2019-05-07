@@ -6,6 +6,9 @@ The Final Project for CS 301 @ Lafayette College
   * Shira Wein         '19
   * Cameron Zurmuhl    '20
 
+##Contents of Submission
+The submission .zip file should contain six items: the Scala Document, the Presentation Slides, a folder containing Examples of Source Code, A folder containing the Game Source Code, the Game Documentation, and this README file.
+
 ## Description
 This repository holds the final project for our CS301 class at Lafayette College: Principles of Programming Languages. The assignment is to
 demonstrate an assigned programming language to the class in the form of a strategic game and examples. Our assigned language was Scala. Our game of choice was Blackjack, a popular casino game where the player plays against a dealer. The player's goal is to get as close as possible to a 21 hand value, with Ace-K, Ace-J, Ace-Q, Ace-10 being automatc winning blackjack hands. Further details of the game are below.
