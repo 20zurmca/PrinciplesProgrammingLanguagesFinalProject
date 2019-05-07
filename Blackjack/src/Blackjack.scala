@@ -21,11 +21,22 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 
-
+/*
+Blackjack Object
+This creates an instance of the GUI class which launches the
+GUI for the game and runs it as well as playing the background music.
+ */
 object Blackjack {
   def main(args: Array[String]): Unit = {
     System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel")
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
+
+      /*
+      run() method
+      Overrides the inherited method and launches an instance of the GUI class which runs the game Blackjack.
+      Parameters: N/A
+      Return Type: Unit
+       */
       override def run(): Unit = {
         new GUI
         try
@@ -41,6 +52,15 @@ object Blackjack {
   }
 }
 
+/*
+GUI Class
+This class is responsible for creating the graphical user interface for the
+game and allowing for game functionality to work with it. It is an extension
+of the JFrame class, a java package. Since Scala does not have any GUI support
+anymore this was used. Using java packages is a useful and key feature in Scala.
+The initial constructor draws the general game area and any additional graphics
+that need to be used and displays and hides them as necessary.
+ */
 class GUI() //Constructor
   extends JFrame {
 
@@ -299,6 +319,13 @@ class GUI() //Constructor
   new_game_button.setVisible(false)
   new_game_button.setEnabled(true)
 
+  /*
+  deal_button() listener
+  This action listener, when pressed, will deal out the cards to the dealer and
+  player and display them on the screen. It checks if either or both the dealer
+  or player got Blackjack. The deal button is then made invisible and the hit,
+  stand, and split (if the players two cards match) are made visible.
+   */
   deal_button.addActionListener(new ActionListener() {
     override def actionPerformed(e: ActionEvent): Unit = {
       hit_button.setVisible(true)
@@ -406,6 +433,11 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  hit_button() listener
+  This action listener, when pressed, hits the players deck, updating the player’s
+  hand count. It also checks if the player gets 21 (automatic win) or busts (automatic loss).
+   */
   hit_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       split_button.setVisible(false)
@@ -449,6 +481,12 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  stand_button() listener
+  This action listener, when pressed, concludes the players turn making all
+  the players buttons invisible. It then calls the dealer_turn() method and
+  has the dealer play out their turn.
+   */
   stand_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       hit_button.setVisible(false)
@@ -461,6 +499,12 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  split_button() listener
+  This action listener, when pressed, will split the players hand into two redrawing
+  how it appears and displaying a separate counter for each hand. New button for
+  hitting and standing each hand now appear.
+   */
   split_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       hit_button.setVisible(false)
@@ -499,6 +543,12 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  hittop_button() listener
+  This action listener, when pressed, hits the players top deck, updating the player’s hand
+  count. It also checks if the player gets 21 (automatic win) or busts (loss depends upon
+  status of other split hand).
+   */
   hittop_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       var player_size = new_game.player.hand_size()
@@ -554,6 +604,12 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  hitlower_button() listener
+  This action listener, when pressed, hits the players bottom deck, updating the player’s
+  hand count. It also checks if the player gets 21 (automatic win) or busts (loss depends
+  upon status of other split hand).
+   */
   hitlower_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       var player_split_size = new_game.player.split_hand_size()
@@ -609,6 +665,12 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  stand_top_button() listener
+  This action listener, when pressed, concludes the players turn for the top hand
+  making all the players “top” buttons invisible. If the bottom hand is also finished,
+  it then calls the dealer_turn() method and has the dealer play out their turn.
+   */
   stand_top_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       hittop_button.setVisible(false)
@@ -625,6 +687,12 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  stand_lower_button() listener
+  This action listener, when pressed, concludes the players turn for the bottom hand
+  making all the players “bottom” buttons invisible. If the top hand is also finished,
+  it then calls the dealer_turn() method and has the dealer play out their turn.
+   */
   stand_lower_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       hitlower_button.setVisible(false)
@@ -641,6 +709,11 @@ class GUI() //Constructor
     }
   })
 
+  /*
+  new_game_button() listener
+  This action listener, when pressed, creates a deal game, resetting all variables
+  that affect the game status, and displaying the deal button to deal out a new hand.
+   */
   new_game_button.addMouseListener(new MouseAdapter() {
     override def mouseClicked(evt: MouseEvent): Unit = {
       remove_cards()
@@ -709,6 +782,17 @@ class GUI() //Constructor
   this.pack()
   this.setVisible(true)
 
+  /*
+  get_new_card() method
+  This method returns a specific card for the GUI in a specific location based upon the parameters you send it.
+  Parameters:
+    Int start_loc: the start x location of where the card will be drawn
+    Int height_spot: the start y location of where the card will be drawn
+    Card card: The card that needs to be drawn on the GUI.
+    Boolean flipped: Whether or not you want to display the card face up or down
+  Return Type:
+    JLabel: The drawn card that can now be added to the GUI.
+   */
   def get_new_card(start_loc: Int, height_spot: Int, card: Card, flipped: Boolean): JLabel = {
     var file_path = "./Cards/"
     if (flipped) {
@@ -760,6 +844,16 @@ class GUI() //Constructor
     return card_label
   }
 
+  /*
+  get_new_card_split() method
+  This method returns a specific card for the GU (scaled for the split hand) in a specific location based upon the parameters you send it.
+  Parameters:
+    Int start_loc: the start x location of where the card will be drawn
+    Int height_spot: the start y location of where the card will be drawn
+    Card card: The card that needs to be drawn on the GUI.
+  Return Type:
+    JLabel: The drawn card that can now be added to the GUI.
+   */
   def get_new_card_split(start_loc: Int, height_spot: Int, card: Card): JLabel = {
     var file_path = "./Cards/"
     var suit = card.suit
@@ -799,6 +893,14 @@ class GUI() //Constructor
     return card_label
   }
 
+  /*
+  remove_cards() method
+  This method moves through the all_cards ArrayBuffer (which are all cards
+  that are currently displayed) and removes them from the GUI and then
+  clears the ArrayBuffer
+  Parameters: N/A
+  Return Type: N/A
+   */
   def remove_cards(): Unit = {
     for (i <- 0 until all_cards.size) {
       contentPane.remove(all_cards(i))
@@ -808,6 +910,15 @@ class GUI() //Constructor
     this.repaint()
   }
 
+
+  /*
+  dealer_turn() method
+  This method handles the dealers turns, they must hit until they have at least a
+  score of 17 on their hand. Each hit, the dealer checks for a bust or blackjack,
+  and then picks a winner.
+  Parameters: N/A
+  Return Type: Unit
+   */
   def dealer_turn(): Unit = {
     while (new_game.dealer.hand_value() < 17 && new_game.dealer.hand_size() <= 6) {
       new_game.dealer_hit()
@@ -844,6 +955,17 @@ class GUI() //Constructor
     determine_winner()
   }
 
+  /*
+  end_game() method
+  This method handles the end of game screen. It makes all buttons invisible and makes
+  the new game button visible. It then displays the winner text based upon the
+  true/false value of the player, dealer, and tie parameter (which is true is the winner)
+  Parameters:
+    Boolean dealer: If this is true, then the dealer won the game.
+    Boolean player: If this is true, then the player won the game.
+    Boolean tie: If this is true, then there was a tie.
+  Return Type: N/A
+ */
   def end_game(player: Boolean, dealer: Boolean, tie: Boolean): Unit = {
     hit_button.setVisible(false)
     stand_button.setVisible(false)
@@ -873,11 +995,26 @@ class GUI() //Constructor
     this.repaint()
   }
 
+  /*
+  determine_winner() method
+  This method determines the winner of the round based upon the hands of the
+  player in dealer. It calls the determine_winner() method from the Game class.
+  It then access the the results of the game and sends them as parameters to
+  the end_game() method.
+  Parameters: N/A
+  Return Type: N/A
+   */
   def determine_winner(): Unit = {
     new_game.determine_winner()
     end_game(new_game.player_result, new_game.dealer_result, new_game.tie_result)
   }
 
+  /*
+  update_counters() method
+  This method updates the hand counters on the GUI to make it easier for the player to sum their hand. If there is a split it will update both counters.
+  Parameter: None
+  Return Type: N/A
+   */
   def update_counters(): Unit = {
 
     if (new_game.player.is_split) {
